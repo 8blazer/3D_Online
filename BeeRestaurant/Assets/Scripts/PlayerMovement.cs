@@ -11,11 +11,9 @@ public class PlayerMovement : NetworkBehaviour
     private void CmdMove(Vector3 velocity)
     {
         GetComponent<Rigidbody>().velocity = velocity * speed;
-        if (velocity.x == 0 && velocity.z == 0) { return; }
         transform.rotation = Quaternion.LookRotation(velocity);
     }
     
-    //[ClientCallback]
     private void Update()
     {
         if (!hasAuthority) { return; }
@@ -24,7 +22,15 @@ public class PlayerMovement : NetworkBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 velocity = new Vector3(x, 0, z);
 
-        if (x == 0 && z == 0) { return; }
-        CmdMove(velocity);
+        if (velocity.x == 0 && velocity.z == 0) { return; }
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            CmdMove(velocity);
+        }
+        else
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        }
     }
 }

@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 1347885195578567469}
   - component: {fileID: 5625469054639447833}
   - component: {fileID: 8577996231879770139}
+  - component: {fileID: 1839871445113817659}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
+  clientAuthority: 0
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
@@ -294,7 +295,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!195 &8577996231879770139
 NavMeshAgent:
@@ -318,3 +319,20 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1839871445113817659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440811405781763450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb32796845ce7c94db9b063fcbf19961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

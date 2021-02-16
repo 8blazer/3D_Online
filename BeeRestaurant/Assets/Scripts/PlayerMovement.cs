@@ -11,7 +11,10 @@ public class PlayerMovement : NetworkBehaviour
     private void CmdMove(Vector3 velocity)
     {
         GetComponent<Rigidbody>().velocity = velocity * speed;
-        transform.rotation = Quaternion.LookRotation(velocity);
+        if (velocity.x != 0 || velocity.z != 0)
+        {
+            transform.rotation = Quaternion.LookRotation(velocity);
+        }
     }
     
     private void Update()
@@ -30,7 +33,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            CmdMove(new Vector3(0, 0, 0));
         }
     }
 }

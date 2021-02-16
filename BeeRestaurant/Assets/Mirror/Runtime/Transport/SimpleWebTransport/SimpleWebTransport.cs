@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 
 namespace Mirror.SimpleWeb
 {
-    [DisallowMultipleComponent]
     public class SimpleWebTransport : Transport
     {
         public const string NormalScheme = "ws";

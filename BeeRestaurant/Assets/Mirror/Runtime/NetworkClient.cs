@@ -275,7 +275,6 @@ namespace Mirror
                 RegisterHandler<ObjectSpawnStartedMessage>((conn, msg) => { });
                 // host mode doesn't need spawning
                 RegisterHandler<ObjectSpawnFinishedMessage>((conn, msg) => { });
-                // host mode doesn't need state updates
                 RegisterHandler<UpdateVarsMessage>((conn, msg) => { });
             }
             else

@@ -69,7 +69,6 @@ namespace Mirror
         /// </summary>
         public static uint CompressQuaternion(Quaternion value)
         {
-            // make sure value is normalized (dont trust user given value, and math here assumes normalized)
             value = value.normalized;
 
             int largestIndex = FindLargestIndex(value);

@@ -1,12 +1,10 @@
 using System;
-using UnityEngine;
 
 namespace Mirror
 {
     /// <summary>
     /// Allows Middleware to override some of the transport methods or let the inner transport handle them.
     /// </summary>
-    [DisallowMultipleComponent]
     public abstract class MiddlewareTransport : Transport
     {
         /// <summary>

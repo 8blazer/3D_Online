@@ -71,7 +71,7 @@ public class CameraFocus : NetworkBehaviour
         mainPlayerScreenPostion.y > mainPlayerFocusDistance ||
         mainPlayerScreenPostion.y < mainPlayerFocusDistance)        
         {
-            playerOffest = new Vector3;
+            //playerOffest = new Vector3;
             mainPlayerIsOutOfCenter = true; 
         }
     }

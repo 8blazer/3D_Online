@@ -333,6 +333,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layerMask:
+  grabLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
+  dropLayerMask:
+    serializedVersion: 2
+    m_Bits: 55

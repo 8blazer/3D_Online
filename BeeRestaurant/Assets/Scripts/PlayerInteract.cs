@@ -7,20 +7,25 @@ public class PlayerInteract : NetworkBehaviour
 {
     Collider[] colliders;
     bool holding = false;
-    public LayerMask layerMask;
+    public LayerMask grabLayerMask;
+    public LayerMask dropLayerMask;
     GameObject heldItem = null;
     List<GameObject> methodParameters = new List<GameObject>();
 
     [Command]
     private void ItemPlace(List<GameObject> gameObjects)
     {
-        gameObjects[0].transform.position = gameObjects[1].transform.position + new Vector3(0, 1, 0);
+        gameObjects[0].transform.position = gameObjects[1].transform.position + new Vector3(0, .5f, 0);
+        gameObjects[0].GetComponent<Pickups>().held = false;
+        gameObjects[0].GetComponent<Pickups>().holdPlayer = null;
     }
 
     [Command]
-    private void ItemDrop(GameObject heldItem)
+    private void ItemDrop(GameObject droppedItem)
     {
+        heldItem = droppedItem;
         heldItem.GetComponent<Pickups>().held = false;
+        heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
 
     [Command]
@@ -39,31 +44,37 @@ public class PlayerInteract : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             RaycastHit hit;
-            Physics.Raycast(transform.position, transform.forward, out hit, 1, layerMask);
-            Debug.DrawRay(transform.position, transform.forward, Color.green, 20, true);
             if (holding)
             {
                 Debug.Log("hold");
-                if (hit.transform.tag == "Countertop" && hit.collider.gameObject.GetComponent<Countertop>().empty)
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
                 {
-                    Debug.Log("counter");
-                    methodParameters.Clear();
-                    methodParameters.Add(heldItem);
-                    methodParameters.Add(hit.transform.gameObject);
-                    ItemPlace(methodParameters);
+                    if (hit.transform.tag == "ItemPlace" && hit.collider.gameObject.GetComponent<Countertop>().empty)
+                    {
+                        Debug.Log("counter");
+                        methodParameters.Clear();
+                        methodParameters.Add(heldItem);
+                        methodParameters.Add(hit.transform.gameObject);
+                        ItemPlace(methodParameters);
+                    }
                 }
-                else if (hit.transform == null)
+                else //if (hit.transform == null || hit.transform.gameObject == heldItem)
                 {
                     Debug.Log("nocounter");
                     ItemDrop(heldItem);
                 }
+                holding = false;
             }
-            else if (hit.transform.gameObject.tag != null)
+            else
             {
-                if (hit.transform.gameObject.tag == "Pickup")
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 1, grabLayerMask))
                 {
-                    Debug.Log(hit.transform.gameObject);
-                    ItemGrab(hit.transform.gameObject);
+                    if (hit.transform.gameObject.tag == "Pickup")
+                    {
+                        Debug.Log(hit.transform.gameObject);
+                        ItemGrab(hit.transform.gameObject);
+                        holding = true;
+                    }
                 }
             }
             

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8375489992564101694}
   - component: {fileID: 8994025619218206196}
   - component: {fileID: 334734758427313087}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower
   m_TagString: Pickup
   m_Icon: {fileID: 0}
@@ -96,8 +96,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.7095494, z: 1.5}
-  m_Center: {x: 0, y: 0.3547747, z: 0}
+  m_Size: {x: 1.5, y: 2.4408529, z: 1.5}
+  m_Center: {x: 0, y: -0.010877013, z: 0}
 --- !u!114 &-8375489992564101694
 MonoBehaviour:
   m_ObjectHideFlags: 0

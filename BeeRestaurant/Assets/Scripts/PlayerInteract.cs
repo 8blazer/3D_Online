@@ -18,6 +18,7 @@ public class PlayerInteract : NetworkBehaviour
         gameObjects[0].transform.position = gameObjects[1].transform.position + new Vector3(0, .5f, 0);
         gameObjects[0].GetComponent<Pickups>().held = false;
         gameObjects[0].GetComponent<Pickups>().holdPlayer = null;
+        gameObjects[0].transform.parent = gameObjects[1].transform;
     }
 
     [Command]
@@ -34,6 +35,10 @@ public class PlayerInteract : NetworkBehaviour
         heldItem = grabbedItem;
         heldItem.GetComponent<Pickups>().held = true;
         heldItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
+        if (heldItem.transform.parent != null)
+        {
+            heldItem.transform.parent.DetachChildren();
+        }
     }
 
     // Update is called once per frame
@@ -46,24 +51,22 @@ public class PlayerInteract : NetworkBehaviour
             RaycastHit hit;
             if (holding)
             {
-                Debug.Log("hold");
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
                 {
-                    if (hit.transform.tag == "ItemPlace" && hit.collider.gameObject.GetComponent<Countertop>().empty)
+                    if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0)
                     {
-                        Debug.Log("counter");
                         methodParameters.Clear();
                         methodParameters.Add(heldItem);
                         methodParameters.Add(hit.transform.gameObject);
                         ItemPlace(methodParameters);
+                        holding = false;
                     }
                 }
-                else //if (hit.transform == null || hit.transform.gameObject == heldItem)
+                else
                 {
-                    Debug.Log("nocounter");
                     ItemDrop(heldItem);
+                    holding = false;
                 }
-                holding = false;
             }
             else
             {
@@ -77,25 +80,6 @@ public class PlayerInteract : NetworkBehaviour
                     }
                 }
             }
-            
-            /*
-            colliders = Physics.OverlapBox(transform.position, new Vector3(0,0,0), Quaternion.identity);
-            foreach (Collider collider in colliders)
-            {
-                if (holding)
-                {
-                    //check for shelf
-                    if (collider.tag == "Countertop" && collider.GetComponent<Countertop>().empty)
-                    {
-
-                    }
-                }
-                else
-                {
-                    //check for item on ground
-                }
-            }
-            */
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {

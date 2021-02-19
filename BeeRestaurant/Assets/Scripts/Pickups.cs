@@ -6,6 +6,7 @@ using Mirror;
 public class Pickups : NetworkBehaviour
 {
     public bool held = false;
+    public bool counter = false;
     public Transform holdPlayer = null;
 
     // Update is called once per frame

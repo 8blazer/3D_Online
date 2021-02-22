@@ -48,6 +48,13 @@ public class PlayerInteract : NetworkBehaviour
         Destroy(cutItem.gameObject);
     }
 
+    [Command]
+    private void CmdDeliver()
+    {
+        holding = false;
+        Destroy(heldItem);
+    }
+
     // Update is called once per frame
     [ClientCallback]
     private void Update()
@@ -66,6 +73,10 @@ public class PlayerInteract : NetworkBehaviour
                     {
                         CmdItemPlace(hit.transform.gameObject);
                         holding = false;
+                    }
+                    else if (hit.transform.tag == "Delivery") //&& heldItem.GetComponent<Pickups>().plated)
+                    {
+                        CmdDeliver();
                     }
                 }
                 else
@@ -110,6 +121,6 @@ public class PlayerInteract : NetworkBehaviour
  * Client can perform no interacting functions at all, though they used to be able to at least grab and drop flowers onto the ground
  * Flowers on tables aren't getting properly sent to client, they aren't children of tables
  * Flowers don't spawn if they've already spawned in previous hosting without restarting program
- * Client authority is set to false, yet the client somehow still runs past the hasAuthority check
+ * If Client Authority is set to false, the client can move but not interact.  If it is set to true, the client can do nothing
  * I think the key to all this is that objects are somehow not perfectly getting sent to clients
  */

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pickup
   - ItemPlace
+  - Delivery
   layers:
   - Default
   - TransparentFX

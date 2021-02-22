@@ -15,7 +15,7 @@ public class FlowerSpawning : NetworkBehaviour
         timer += Time.deltaTime;
         if (timer > 1 && flowerNumber < 5)
         {
-            GameObject flower = Instantiate(flowerPrefab, new Vector3(Random.Range(-4f, 5f), .75f, Random.Range(-3f, -5f)), Quaternion.identity);
+            GameObject flower = Instantiate(flowerPrefab, new Vector3(Random.Range(-3.5f, 4.5f), .75f, Random.Range(-1f, -3f)), Quaternion.identity);
             NetworkServer.Spawn(flower);
             timer = 0;
             flowerNumber++;

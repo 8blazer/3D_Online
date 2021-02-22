@@ -11,6 +11,7 @@ public class PlayerInteract : NetworkBehaviour
     public LayerMask dropLayerMask;
     GameObject heldItem = null;
     List<GameObject> methodParameters = new List<GameObject>();
+    public GameObject cutFlowerPrefab;
 
     [Command]
     private void ItemPlace(List<GameObject> gameObjects)
@@ -22,17 +23,15 @@ public class PlayerInteract : NetworkBehaviour
     }
 
     [Command]
-    private void ItemDrop(GameObject droppedItem)
+    private void ItemDrop()
     {
-        heldItem = droppedItem;
         heldItem.GetComponent<Pickups>().held = false;
         heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
 
     [Command]
-    private void ItemGrab(GameObject grabbedItem)
+    private void ItemGrab()
     {
-        heldItem = grabbedItem;
         heldItem.GetComponent<Pickups>().held = true;
         heldItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
         if (heldItem.transform.parent != null)
@@ -41,14 +40,22 @@ public class PlayerInteract : NetworkBehaviour
         }
     }
 
+    [Command]
+    private void ItemCut(Transform cutItem)
+    {
+        Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
+        Destroy(cutItem.gameObject);
+    }
+
     // Update is called once per frame
     private void Update()
     {
         if (!hasAuthority) { return; }
 
+        RaycastHit hit;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            RaycastHit hit;
             if (holding)
             {
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
@@ -64,7 +71,7 @@ public class PlayerInteract : NetworkBehaviour
                 }
                 else
                 {
-                    ItemDrop(heldItem);
+                    ItemDrop();
                     holding = false;
                 }
             }
@@ -74,8 +81,8 @@ public class PlayerInteract : NetworkBehaviour
                 {
                     if (hit.transform.gameObject.tag == "Pickup")
                     {
-                        Debug.Log(hit.transform.gameObject);
-                        ItemGrab(hit.transform.gameObject);
+                        heldItem = hit.transform.gameObject;
+                        ItemGrab();
                         holding = true;
                     }
                 }
@@ -84,7 +91,25 @@ public class PlayerInteract : NetworkBehaviour
         else if (Input.GetKeyDown(KeyCode.E))
         {
             colliders = Physics.OverlapBox(transform.position, new Vector3(0, 0, 0), Quaternion.identity);
-            //check for task
+
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
+            {
+                if (hit.transform.gameObject.tag == "ItemPlace" && hit.collider.transform.childCount > 0)
+                {
+                    if (hit.transform.GetChild(0).GetComponent<Pickups>().cuttable == true)
+                    {
+                        ItemCut(hit.transform.GetChild(0));
+                    }
+                }
+            }
         }
     }
 }
+
+/*
+ * Issues:
+ * Host can perform every function perfectly until they try to place a cut flower onto a table
+ * Client can perform no functions at all, though they used to be able to at least grab and drop flowers onto the ground
+ * Already cut flowers do not appear when client joins an already running server, though this should eventually never matter
+ * I think the key to all this is that objects are somehow not perfectly getting sent to clients
+ */

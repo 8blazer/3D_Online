@@ -339,3 +339,4 @@ MonoBehaviour:
   dropLayerMask:
     serializedVersion: 2
     m_Bits: 55
+  cutFlowerPrefab: {fileID: 4682133695359472249, guid: ad5dded90cc828a4bb8ea80bce254999, type: 3}

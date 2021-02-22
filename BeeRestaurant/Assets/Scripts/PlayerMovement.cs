@@ -17,6 +17,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
     
+    [ClientCallback]
     private void Update()
     {
         if (!hasAuthority) { return; }

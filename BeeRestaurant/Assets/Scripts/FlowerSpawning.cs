@@ -21,4 +21,11 @@ public class FlowerSpawning : NetworkBehaviour
             flowerNumber++;
         }
     }
+
+    [ServerCallback]
+    private void OnServerInitialized()
+    {
+        flowerNumber = 0;
+        timer = 0;
+    }
 }

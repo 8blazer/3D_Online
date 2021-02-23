@@ -9,8 +9,8 @@ public class CameraFocus : NetworkBehaviour
     //[SerializeField] private NetworkManager NM = null;
     [SerializeField] private float cameraReactionTimer = .5f;// Buffer before camera reacts to stop jitteriness
 
-    [SerializeField] private float mainPlayerFocusDistanceHorizontal;// Distance from center of screen main this clients player can be before camera moves horizantally(Uses fraction of current screen size)
-    [SerializeField] private float mainPlayerFocusDistanceVertical;//"" but vertically
+    [SerializeField] private float mainPlayerFocusDistance;// Distance from center of screen main this clients player can be before camera moves horizantally(Uses fraction of current screen size)
+    //[SerializeField] private float mainPlayerFocusDistanceVertical;//"" but vertically
 
     [SerializeField] private float otherPlayerZoomOutDistance = .9f; // Distance from edge of screen other players can be before the camera zooms outs(Uses fraction of current screen size)
     //[SerializeField] private float otherPlayerZoomOutDistanceVTL = .8f;
@@ -55,10 +55,13 @@ public class CameraFocus : NetworkBehaviour
     void Start()
     {
         cam = Camera.main;
+        Vector3 transfer = new Vector3(thisClientsPlayer.transform.position.x, thisClientsPlayer.transform.position.y, cam.transform.position.z);
+        cam.transform.position = transfer;
+
         FindPlayers();
 
-        MPHorizontalFD = mainPlayerFocusDistanceHorizontal * Screen.width;
-        MPVerticalFD = mainPlayerFocusDistanceVertical * Screen.height;
+        MPHorizontalFD = mainPlayerFocusDistance * Screen.width;
+        MPVerticalFD = mainPlayerFocusDistance * Screen.height;
         OPZoomOutDHorizontal = otherPlayerZoomOutDistance * Screen.width;
         OPZoomOutDVertical = otherPlayerZoomOutDistance * Screen.height;
         OPZoomInDHorizontal = otherPlayerZoomInDistance * Screen.width;

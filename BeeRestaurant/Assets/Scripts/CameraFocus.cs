@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class CameraFocus : NetworkBehaviour
+public class CameraFocus : MonoBehaviour
 {
     //[SerializeField] private NetworkManager NM = null;
     [SerializeField] private float cameraReactionTimer = .5f;// Buffer before camera reacts to stop jitteriness
@@ -55,7 +55,7 @@ public class CameraFocus : NetworkBehaviour
     void Start()
     {
         cam = Camera.main;
-        Vector3 transfer = new Vector3(thisClientsPlayer.transform.position.x, thisClientsPlayer.transform.position.y, cam.transform.position.z);
+        Vector3 transfer = new Vector3(thisClientsPlayer.transform.position.x, thisClientsPlayer.transform.position.y + 10, cam.transform.position.z);
         cam.transform.position = transfer;
 
         FindPlayers();
@@ -70,10 +70,10 @@ public class CameraFocus : NetworkBehaviour
         OPZoomInOutMiddleVertical = (OPZoomInDVertical + OPZoomOutDVertical) / 2;
         OPZoomInOutMiddleHorizontal = (OPZoomInDHorizontal + OPZoomOutDHorizontal) / 2;
     }
-    public override void OnStartAuthority()
-    {
+    //public override void OnStartAuthority()
+    //{
         
-    }
+    //}
     [ClientCallback]
     void Update()
     {

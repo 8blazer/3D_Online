@@ -35,7 +35,6 @@ public class PlayerInteract : NetworkBehaviour
     [Command]
     private void CmdItemDrop()
     {
-        Debug.Log("drop2");
         heldItem.GetComponent<Pickups>().held = false;
         heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
@@ -43,7 +42,6 @@ public class PlayerInteract : NetworkBehaviour
     [Client]
     private void ClntItemDrop()
     {
-        Debug.Log("drop2");
         heldItem.GetComponent<Pickups>().held = false;
         heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
@@ -60,7 +58,6 @@ public class PlayerInteract : NetworkBehaviour
     [Client]
     private void ClntItemGrab()
     {
-        Debug.Log("grabbed");
         heldItem.GetComponent<Pickups>().held = true;
         heldItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
         heldItem.transform.parent = null;
@@ -142,10 +139,8 @@ public class PlayerInteract : NetworkBehaviour
                 }
                 else
                 {
-                    Debug.Log("drop");
                     CmdItemDrop();
                     ClntItemDrop();
-                    Debug.Log("drop3");
                     holding = false;
                 }
             }
@@ -155,7 +150,6 @@ public class PlayerInteract : NetworkBehaviour
                 {
                     if (hit.transform.gameObject.tag == "Pickup")
                     {
-                        Debug.Log("A");
                         heldItem = hit.transform.gameObject;
                         CmdItemGrab();
                         ClntItemGrab();
@@ -185,9 +179,7 @@ public class PlayerInteract : NetworkBehaviour
 
 /*
  * Issues:
- * Client can perform no interacting functions at all, though they used to be able to at least grab and drop flowers onto the ground
+ * Client can't perform any interaction command functions, but the movement command function runs perfectly.
  * Flowers on tables aren't getting properly sent to client, they aren't children of tables
  * Flowers don't spawn if they've already spawned in previous hosting without restarting program
- * If Client Authority is set to false, the client can move but not interact.  If it is set to true, the client can do nothing
- * I think the key to all this is that objects are somehow not perfectly getting sent to clients
  */

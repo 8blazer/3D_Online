@@ -16,6 +16,16 @@ public class PlayerMovement : NetworkBehaviour
             transform.rotation = Quaternion.LookRotation(velocity);
         }
     }
+
+    [Client]
+    private void ClntMove(Vector3 velocity)
+    {
+        GetComponent<Rigidbody>().velocity = velocity * speed;
+        if (velocity.x != 0 || velocity.z != 0)
+        {
+            transform.rotation = Quaternion.LookRotation(velocity);
+        }
+    }
     
     [ClientCallback]
     private void Update()
@@ -31,10 +41,12 @@ public class PlayerMovement : NetworkBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             CmdMove(velocity);
+            ClntMove(velocity);
         }
         else
         {
             CmdMove(new Vector3(0, 0, 0));
+            ClntMove(new Vector3(0, 0, 0));
         }
     }
 }

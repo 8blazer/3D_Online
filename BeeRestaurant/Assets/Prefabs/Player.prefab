@@ -333,10 +333,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  holding: 0
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 256
   dropLayerMask:
     serializedVersion: 2
     m_Bits: 55
+  heldItem: {fileID: 0}
   cutFlowerPrefab: {fileID: 4682133695359472249, guid: ad5dded90cc828a4bb8ea80bce254999, type: 3}

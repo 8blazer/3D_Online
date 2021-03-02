@@ -12,6 +12,7 @@ public class NetManager : NetworkManager
 
         NetPlayer player = conn.identity.GetComponent<NetPlayer>();
         player.TargetGetPlayerPrefColor();
+        conn.identity.GetComponent<CameraFocus>().TargetFindPlayers(conn);
     }
 
    

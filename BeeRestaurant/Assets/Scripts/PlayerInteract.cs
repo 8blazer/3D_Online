@@ -48,11 +48,12 @@ public class PlayerInteract : NetworkBehaviour
 
     
     [Command]
-    private void CmdItemGrab()
+    private void CmdItemGrab(string name)
     {
-        heldItem.GetComponent<Pickups>().held = true;
-        heldItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
-        heldItem.transform.parent = null;
+        GameObject grabbedItem = GameObject.Find(name);
+        grabbedItem.GetComponent<Pickups>().held = true;
+        //grabbedItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
+        grabbedItem.transform.parent = null;
     }
 
     [Client]
@@ -151,7 +152,7 @@ public class PlayerInteract : NetworkBehaviour
                     if (hit.transform.gameObject.tag == "Pickup")
                     {
                         heldItem = hit.transform.gameObject;
-                        CmdItemGrab();
+                        CmdItemGrab(heldItem.name);
                         ClntItemGrab();
                         holding = true;
                     }

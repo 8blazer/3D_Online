@@ -133,6 +133,7 @@ MonoBehaviour:
   holdPlayer: {fileID: 0}
   cuttable: 0
   plated: 0
+  nameInt: 0
 --- !u!114 &2389749256866750371
 MonoBehaviour:
   m_ObjectHideFlags: 0

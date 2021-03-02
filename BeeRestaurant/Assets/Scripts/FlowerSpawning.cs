@@ -9,6 +9,13 @@ public class FlowerSpawning : NetworkBehaviour
     int flowerNumber = 0;
     public GameObject flowerPrefab;
 
+    [ClientRpc]
+    private void SyncNames()
+    {
+        GameObject netManager = GameObject.Find("NetworkManager 1");
+        netManager.GetComponent<NetSync>().RefreshHeirarachy();
+    }
+
     [ServerCallback]
     void Update()
     {
@@ -17,8 +24,10 @@ public class FlowerSpawning : NetworkBehaviour
         {
             GameObject flower = Instantiate(flowerPrefab, new Vector3(Random.Range(-3.5f, 4.5f), .75f, Random.Range(-1f, -3f)), Quaternion.identity);
             NetworkServer.Spawn(flower);
+            flower.gameObject.GetComponent<Pickups>().nameInt = flowerNumber;
             timer = 0;
             flowerNumber++;
+            SyncNames();
         }
     }
 

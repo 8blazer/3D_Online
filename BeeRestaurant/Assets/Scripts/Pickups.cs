@@ -10,6 +10,7 @@ public class Pickups : NetworkBehaviour
     public Transform holdPlayer = null;
     public bool cuttable = true;
     public bool plated = false;
+    public int nameInt;
 
     // Update is called once per frame
     void Update()

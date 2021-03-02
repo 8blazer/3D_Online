@@ -10,10 +10,8 @@ public class NetManager : NetworkManager
         base.OnServerAddPlayer(conn);
 
         NetPlayer player = conn.identity.GetComponent<NetPlayer>();
-        
-        player.SetColor(new Color(
-            Random.Range(0.00f, 1.00f),
-            Random.Range(0.00f, 1.00f),
-            Random.Range(0.00f, 1.00f)));
+
+        player.TargetGetPlayerPrefColor();
+        player.SetColor(player.PlayerPrefColor);
     }
 }

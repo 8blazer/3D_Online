@@ -10,6 +10,7 @@ public class NetPlayer : NetworkBehaviour
     [SyncVar(hook = nameof(HandleDisplayColorUpdated))]
     [SerializeField]
     private Color playerColor = new Color(1, 1, 1);
+    public Color PlayerPrefColor;
 
     #region ServerLogic
 
@@ -26,6 +27,14 @@ public class NetPlayer : NetworkBehaviour
     {
         displayerColorRenderer.material.SetColor("_BaseColor", newColor);
     }
-
+    [TargetRpc]
+    public void TargetGetPlayerPrefColor()
+    {
+        PlayerPrefColor = new Color(
+            PlayerPrefs.GetFloat("PCredValue"),
+             PlayerPrefs.GetFloat("PCblueValue"),
+              PlayerPrefs.GetFloat("PCgreenValue")
+            );
+    }
     #endregion
 }

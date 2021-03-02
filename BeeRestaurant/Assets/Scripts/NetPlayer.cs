@@ -11,11 +11,12 @@ public class NetPlayer : NetworkBehaviour
     [SerializeField]
     private Color playerColor = new Color(1, 1, 1);
     public Color PlayerPrefColor;
+    //public bool playerPrefSet;
 
     #region ServerLogic
 
-    [Server]
-    public void SetColor(Color color)
+    [Command]
+    public void CmdSetColor(Color color)
     {
         playerColor = color;
     }
@@ -31,10 +32,11 @@ public class NetPlayer : NetworkBehaviour
     public void TargetGetPlayerPrefColor()
     {
         PlayerPrefColor = new Color(
-            PlayerPrefs.GetFloat("PCredValue"),
-             PlayerPrefs.GetFloat("PCblueValue"),
-              PlayerPrefs.GetFloat("PCgreenValue")
-            );
+    PlayerPrefs.GetFloat("PCredValue"),
+    PlayerPrefs.GetFloat("PCgreenValue"),
+    PlayerPrefs.GetFloat("PCblueValue")
+    );
+        CmdSetColor(PlayerPrefColor);
     }
     #endregion
 }

@@ -22,14 +22,6 @@ public class NetSync : MonoBehaviour
             objects.Add(gameObject);
         }
 
-        foreach (GameObject gameObject in objects)
-        {
-            if (gameObject.name.Contains("(Clone)"))
-            {
-                gameObject.name.Replace("(Clone)", "");
-            }
-        }
-
         while (objects.Count > 0) //Goes through entire list of Game Objects and sorts them until there are none left
         {
             i = 0;

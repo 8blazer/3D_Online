@@ -11,6 +11,25 @@ public class NetPlayer : NetworkBehaviour
     [SerializeField]
     private Color playerColor = new Color(1, 1, 1);
     public Color PlayerPrefColor;
+    GameObject netManager;
+
+    private void Start()
+    {
+        netManager = GameObject.Find("NetworkManager");
+        if (netManager == null)
+        {
+            netManager = GameObject.Find("NetworkManager 1");
+        }
+        netManager.GetComponent<NetSync>().RefreshHeirarachy();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            netManager.GetComponent<NetSync>().RefreshHeirarachy();
+        }
+    }
 
     #region ServerLogic
 

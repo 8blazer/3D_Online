@@ -126,7 +126,7 @@ public class PlayerInteract : NetworkBehaviour
             {
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
                 {
-                    if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0 || (hit.collider.transform.childCount == 1 && hit.collider.transform.gameObject.name == "CuttingBoard"))
+                    if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0 || (hit.collider.transform.childCount == 1 && hit.collider.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
                     {
                         CmdItemPlace(hit.transform.gameObject);
                         ClntItemPlace(hit.transform.gameObject);

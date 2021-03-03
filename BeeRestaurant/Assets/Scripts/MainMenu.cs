@@ -1,29 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Transform CPCameraPosition;
     [SerializeField] private ColorPicker colorPicker;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void Options()
+    public void Settings()
     {
 
     }
-    public void GoToColorPicker()
+    public void Customize()
     {
-        Camera.main.transform.position = CPCameraPosition.position;
         colorPicker.OpenColorPicker();
+        Camera.main.transform.position = CPCameraPosition.position;
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene("TaranTesting");
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

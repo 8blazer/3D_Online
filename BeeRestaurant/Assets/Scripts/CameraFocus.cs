@@ -4,10 +4,10 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class CameraFocus : MonoBehaviour
+public class CameraFocus : NetworkBehaviour
 {
     //[SerializeField] private NetworkManager NM = null;
-    [SerializeField] private float cameraReactionTimer = .5f;// Buffer before camera reacts to stop jitteriness
+    [SerializeField] private float cameraReactionTimer = 2f;// Buffer before camera reacts to stop jitteriness
 
     [SerializeField] private float mainPlayerFocusDistance;// Distance from center of screen main this clients player can be before camera moves horizantally(Uses fraction of current screen size)
     //[SerializeField] private float mainPlayerFocusDistanceVertical;//"" but vertically
@@ -17,10 +17,10 @@ public class CameraFocus : MonoBehaviour
 
     [SerializeField] private float otherPlayerZoomInDistance = .6f; // Distance from edge of screen before camera zooms in(Uses fraction of current screen size)
     //[SerializeField] private float otherPlayerZoomInDistanceVTL = .5f;
-    [SerializeField] private float zoomDistance = .5f; //Distance Camera moves when zooming every frame
+    [SerializeField] private float zoomDistance = .05f; //Distance Camera moves when zooming every frame
 
     [SerializeField] private Transform thisClientsPlayer;
-    private List<Transform> otherPlayersTransform;
+    private List<Transform> otherPlayersTransform = new List<Transform>();
     private Camera cam;
     private bool mainPlayerIsOutOfCenter = false;
     private bool mainPlayerStopInvoking = false;
@@ -58,7 +58,7 @@ public class CameraFocus : MonoBehaviour
         Vector3 transfer = new Vector3(thisClientsPlayer.transform.position.x, thisClientsPlayer.transform.position.y + 10, cam.transform.position.z);
         cam.transform.position = transfer;
 
-        FindPlayers();
+        //TargetFindPlayers();
 
         MPHorizontalFD = mainPlayerFocusDistance * Screen.width;
         MPVerticalFD = mainPlayerFocusDistance * Screen.height;
@@ -101,45 +101,52 @@ public class CameraFocus : MonoBehaviour
         }
         if (!otherPlayerNeedsZoomOut)
         {
-            foreach (Transform otherPlayerTransform in otherPlayersTransform)
+            if(otherPlayersTransform != null)
             {
-                Vector2 screenPointPosition = cam.WorldToScreenPoint(otherPlayerTransform.position);
-                if (screenPointPosition.x > Screen.width / 2 + OPZoomOutDHorizontal ||
-                    screenPointPosition.x < Screen.width / 2 - OPZoomOutDHorizontal ||
-                    screenPointPosition.y > Screen.height / 2 + OPZoomOutDVertical ||
-                    screenPointPosition.y < Screen.height / 2 - OPZoomOutDVertical)
+                foreach (Transform otherPlayerTransform in otherPlayersTransform)
                 {
-                    if (!otherPlayerZoomOutStopInvoking) { Invoke(nameof(ReactionTimeCheckZoomOutCamera), cameraReactionTimer); }
-                    otherPlayerZoomOutStopInvoking = true;
-                    OPThatNeedsZoom = otherPlayerTransform;
-                    break;
-                }
-                else
-                {
-                    otherPlayerNeedsZoomOut = false;
+                    Vector2 screenPointPosition = cam.WorldToScreenPoint(otherPlayerTransform.position);
+                    if (screenPointPosition.x > Screen.width / 2 + OPZoomOutDHorizontal ||
+                        screenPointPosition.x < Screen.width / 2 - OPZoomOutDHorizontal ||
+                        screenPointPosition.y > Screen.height / 2 + OPZoomOutDVertical ||
+                        screenPointPosition.y < Screen.height / 2 - OPZoomOutDVertical)
+                    {
+                        if (!otherPlayerZoomOutStopInvoking) { Invoke(nameof(ReactionTimeCheckZoomOutCamera), cameraReactionTimer); }
+                        otherPlayerZoomOutStopInvoking = true;
+                        OPThatNeedsZoom = otherPlayerTransform;
+                        break;
+                    }
+                    else
+                    {
+                        otherPlayerNeedsZoomOut = false;
+                    }
                 }
             }
+            
         }
         if (!otherPlayerNeedsZoomIn)
         {
-            foreach (Transform otherPlayerTransform in otherPlayersTransform)
+            if(otherPlayersTransform != null)
             {
-                Vector2 screenPointPosition = cam.WorldToScreenPoint(otherPlayerTransform.position);
-                if (screenPointPosition.x > Screen.width / 2 + OPZoomInDHorizontal ||
-                    screenPointPosition.x < Screen.width / 2 - OPZoomInDHorizontal ||
-                    screenPointPosition.y > Screen.height / 2 + OPZoomInDVertical ||
-                    screenPointPosition.y < Screen.height / 2 - OPZoomInDVertical)
+                foreach (Transform otherPlayerTransform in otherPlayersTransform)
                 {
-                    otherPlayerNeedsZoomIn = false;
-                    break;
+                    Vector2 screenPointPosition = cam.WorldToScreenPoint(otherPlayerTransform.position);
+                    if (screenPointPosition.x > Screen.width / 2 + OPZoomInDHorizontal ||
+                        screenPointPosition.x < Screen.width / 2 - OPZoomInDHorizontal ||
+                        screenPointPosition.y > Screen.height / 2 + OPZoomInDVertical ||
+                        screenPointPosition.y < Screen.height / 2 - OPZoomInDVertical)
+                    {
+                        otherPlayerNeedsZoomIn = false;
+                        break;
+                    }
+                    else
+                    {
+                        if (!otherPlayerZoomInStopInvoking) { Invoke(nameof(ReactionTimeCheckZoomInCamera), cameraReactionTimer); }
+                        otherPlayerZoomInStopInvoking = true;
+                        OPThatNeedsZoom = otherPlayerTransform;
+                    }
                 }
-                else
-                {
-                    if (!otherPlayerZoomInStopInvoking) { Invoke(nameof(ReactionTimeCheckZoomInCamera), cameraReactionTimer); }
-                    otherPlayerZoomInStopInvoking = true;
-                    OPThatNeedsZoom = otherPlayerTransform;                   
-                }
-            }
+            }         
         }
     }
     [Client]
@@ -333,7 +340,7 @@ public class CameraFocus : MonoBehaviour
                         {
                             otherPlayerNeedsZoomOut = false;
                         }
-                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance);
+                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance * Time.deltaTime);
                         break;
                     case 1:
                         if (OPScreenPosition.x > (Screen.width / 2 - OPZoomInOutMiddleHorizontal - objectErrorDistance) ||
@@ -341,7 +348,7 @@ public class CameraFocus : MonoBehaviour
                         {
                             otherPlayerNeedsZoomOut = false;
                         }
-                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance);
+                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance * Time.deltaTime);
                         break;
                     case 2:
                         if (OPScreenPosition.x > (Screen.height / 2 + OPZoomInOutMiddleVertical - objectErrorDistance) ||
@@ -349,7 +356,7 @@ public class CameraFocus : MonoBehaviour
                         {
                             otherPlayerNeedsZoomOut = false;
                         }
-                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance);
+                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance * Time.deltaTime);
                         break;
                     case 3:
                         if (OPScreenPosition.x > (Screen.height / 2 - OPZoomInOutMiddleVertical - objectErrorDistance) ||
@@ -357,7 +364,7 @@ public class CameraFocus : MonoBehaviour
                         {
                             otherPlayerNeedsZoomOut = false;
                         }
-                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance);
+                        cam.transform.position = cam.transform.position + (-cam.transform.forward * zoomDistance * Time.deltaTime);
                         break;
                 }
                 break;
@@ -375,18 +382,21 @@ public class CameraFocus : MonoBehaviour
                     }
                     else
                     {
-                        cam.transform.position = cam.transform.position + (cam.transform.forward * zoomDistance);
+                        cam.transform.position = cam.transform.position + (cam.transform.forward * zoomDistance * Time.deltaTime);
                     }
                 }
                 break;
         }
     }
-    [Client]
-    public void FindPlayers()
+    [TargetRpc]
+    public void TargetFindPlayers(NetworkConnection conn)
     {
-        foreach(Transform transform in otherPlayersTransform)
+        if(otherPlayersTransform != null)
         {
-            otherPlayersTransform.Remove(transform);
+            foreach (Transform transform in otherPlayersTransform)
+            {
+                otherPlayersTransform.Remove(transform);
+            }
         }
         GameObject[] allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
         foreach(GameObject player in allPlayerObjects)

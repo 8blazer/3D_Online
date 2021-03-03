@@ -5,13 +5,15 @@ using Mirror;
 
 public class NetManager : NetworkManager
 {
+    public static NetManager netManager;
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
 
         NetPlayer player = conn.identity.GetComponent<NetPlayer>();
-
         player.TargetGetPlayerPrefColor();
-        player.SetColor(player.PlayerPrefColor);
+        conn.identity.GetComponent<CameraFocus>().TargetFindPlayers(conn);
     }
+
+   
 }

@@ -33,8 +33,8 @@ public class NetPlayer : NetworkBehaviour
 
     #region ServerLogic
 
-    [Server]
-    public void SetColor(Color color)
+    [Command]
+    public void CmdSetColor(Color color)
     {
         playerColor = color;
     }
@@ -50,10 +50,11 @@ public class NetPlayer : NetworkBehaviour
     public void TargetGetPlayerPrefColor()
     {
         PlayerPrefColor = new Color(
-            PlayerPrefs.GetFloat("PCredValue"),
-             PlayerPrefs.GetFloat("PCblueValue"),
-              PlayerPrefs.GetFloat("PCgreenValue")
-            );
+    PlayerPrefs.GetFloat("PCredValue"),
+    PlayerPrefs.GetFloat("PCgreenValue"),
+    PlayerPrefs.GetFloat("PCblueValue")
+    );
+        CmdSetColor(PlayerPrefColor);
     }
     #endregion
 }

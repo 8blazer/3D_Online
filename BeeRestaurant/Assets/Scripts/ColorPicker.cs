@@ -13,6 +13,7 @@ public class ColorPicker : MonoBehaviour
     [SerializeField] private Text blueTcolor;
     [SerializeField] private Text greenTcolor;
     [SerializeField] private Renderer playerPreview;
+
     private float previousColorRed;
     private float previousColorBlue;
     private float previousColorGreen;
@@ -40,11 +41,11 @@ public class ColorPicker : MonoBehaviour
     }
     public void LeaveColorPicker()
     {
-        Camera.main.transform.position = gameObject.transform.position;//MainMenu Canvas
+        Camera.main.transform.position = MMCameraPosition.position;//MainMenu Canvas
     }
     public void UpdateColor()
     {
-        playerPreview.material.color = new Color(redColor.value/255,blueColor.value/255,greenColor.value/255, 1);
+        playerPreview.material.color = new Color(redColor.value/255,greenColor.value/255,blueColor.value/255, 1);
         redTcolor.text = ("R: "+ redColor.value );
         blueTcolor.text = ("B: " + blueColor.value);
         greenTcolor.text = ("G: " + greenColor.value);

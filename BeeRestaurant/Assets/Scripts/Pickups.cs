@@ -18,7 +18,7 @@ public class Pickups : NetworkBehaviour
         if (holdPlayer != null)
         {
             transform.position = holdPlayer.position;
-            transform.LookAt(holdPlayer);
+            transform.LookAt(holdPlayer.parent);
         }
     }
 }

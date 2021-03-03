@@ -15,12 +15,14 @@ public class PlayerInteract : NetworkBehaviour
     RaycastHit hit;
 
     [Command]
-    private void CmdItemPlace(GameObject counter)
+    private void CmdItemPlace(string table, string item)
     {
-        heldItem.transform.position = counter.transform.position + new Vector3(0, .5f, 0);
-        heldItem.GetComponent<Pickups>().held = false;
-        heldItem.GetComponent<Pickups>().holdPlayer = null;
-        heldItem.transform.parent = counter.transform;
+        GameObject counter = GameObject.Find(table);
+        GameObject placedItem = GameObject.Find(item);
+        placedItem.transform.position = counter.transform.position + new Vector3(0, .5f, 0);
+        placedItem.GetComponent<Pickups>().held = false;
+        placedItem.GetComponent<Pickups>().holdPlayer = null;
+        placedItem.transform.parent = counter.transform;
     }
 
     [Client]
@@ -33,10 +35,11 @@ public class PlayerInteract : NetworkBehaviour
     }
 
     [Command]
-    private void CmdItemDrop()
+    private void CmdItemDrop(string item)
     {
-        heldItem.GetComponent<Pickups>().held = false;
-        heldItem.GetComponent<Pickups>().holdPlayer = null;
+        GameObject droppedItem = GameObject.Find(item);
+        droppedItem.GetComponent<Pickups>().held = false;
+        droppedItem.GetComponent<Pickups>().holdPlayer = null;
     }
 
     [Client]
@@ -48,11 +51,12 @@ public class PlayerInteract : NetworkBehaviour
 
     
     [Command]
-    private void CmdItemGrab(string name)
+    private void CmdItemGrab(string item, string player)
     {
-        GameObject grabbedItem = GameObject.Find(name);
+        GameObject grabbedItem = GameObject.Find(item);
+        GameObject grabPlayer = GameObject.Find(player);
         grabbedItem.GetComponent<Pickups>().held = true;
-        //grabbedItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
+        grabbedItem.GetComponent<Pickups>().holdPlayer = grabPlayer.transform;
         grabbedItem.transform.parent = null;
     }
 
@@ -65,16 +69,18 @@ public class PlayerInteract : NetworkBehaviour
     }
 
     [Command]
-    private void CmdItemCut(Transform cutItem)
+    private void CmdItemCut(string table, string item)
     {
-        hit.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
-        hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1 * Time.deltaTime;
+        GameObject counter = GameObject.Find(table);
+        GameObject cutItem = GameObject.Find(item);
+        counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
+        counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1 * Time.deltaTime;
         cutItem.tag = "Untagged";
 
-        if (hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
+        if (counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
         {
-            hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
-            hit.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
+            counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
+            counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
             GameObject cutFlower = Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
             cutFlower.transform.parent = cutItem.transform.parent;
             NetworkServer.Spawn(cutFlower);
@@ -93,18 +99,15 @@ public class PlayerInteract : NetworkBehaviour
         {
             hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             hit.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
-            GameObject cutFlower = Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
-            cutFlower.transform.parent = cutItem.transform.parent;
-            NetworkServer.Spawn(cutFlower);
             Destroy(cutItem.gameObject);
         }
     }
 
     [Command]
-    private void CmdDeliver()
+    private void CmdDeliver(string item)
     {
-        holding = false;
-        Destroy(heldItem);
+        GameObject deliveredItem = GameObject.Find(item);
+        Destroy(deliveredItem);
     }
 
     [Client]
@@ -128,19 +131,20 @@ public class PlayerInteract : NetworkBehaviour
                 {
                     if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0 || (hit.collider.transform.childCount == 1 && hit.collider.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
                     {
-                        CmdItemPlace(hit.transform.gameObject);
+                        CmdItemPlace(hit.transform.gameObject.name, heldItem.name);
                         ClntItemPlace(hit.transform.gameObject);
                         holding = false;
                     }
                     else if (hit.transform.tag == "Delivery") //&& heldItem.GetComponent<Pickups>().plated)
                     {
-                        CmdDeliver();
+                        holding = false;
+                        CmdDeliver(heldItem.name);
                         ClntDeliver();
                     }
                 }
                 else
                 {
-                    CmdItemDrop();
+                    CmdItemDrop(heldItem.name);
                     ClntItemDrop();
                     holding = false;
                 }
@@ -152,7 +156,7 @@ public class PlayerInteract : NetworkBehaviour
                     if (hit.transform.gameObject.tag == "Pickup")
                     {
                         heldItem = hit.transform.gameObject;
-                        CmdItemGrab(heldItem.name);
+                        CmdItemGrab(heldItem.name, this.gameObject.transform.GetChild(1).name);
                         ClntItemGrab();
                         holding = true;
                     }
@@ -165,11 +169,11 @@ public class PlayerInteract : NetworkBehaviour
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
             {
-                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name == "CuttingBoard" && hit.collider.transform.childCount > 0)
+                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.collider.transform.childCount > 0)
                 {
                     if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true)
                     {
-                        CmdItemCut(hit.transform.GetChild(1));
+                        CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name);
                         ClntItemCut(hit.transform.GetChild(1));
                     }
                 }
@@ -180,7 +184,6 @@ public class PlayerInteract : NetworkBehaviour
 
 /*
  * Issues:
- * Client can't perform any interaction command functions, but the movement command function runs perfectly.
- * Flowers on tables aren't getting properly sent to client, they aren't children of tables
+ * Flowers aren't getting parented to the tables properly.  Clients work perfectly for the server and clients, host works perfectly for the server, but not the client
  * Flowers don't spawn if they've already spawned in previous hosting without restarting program
  */

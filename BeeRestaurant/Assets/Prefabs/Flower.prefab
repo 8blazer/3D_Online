@@ -150,5 +150,5 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
+  localRotationSensitivity: 45
   localScaleSensitivity: 0.01

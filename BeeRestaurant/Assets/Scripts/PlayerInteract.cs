@@ -13,6 +13,7 @@ public class PlayerInteract : NetworkBehaviour
     public GameObject heldItem = null;
     public GameObject cutFlowerPrefab;
     RaycastHit hit;
+    bool methodRunning = false;
 
     [Command]
     private void CmdItemPlace(string table, string item)
@@ -71,14 +72,16 @@ public class PlayerInteract : NetworkBehaviour
     [Command]
     private void CmdItemCut(string table, string item)
     {
+        Debug.Log("cut");
         GameObject counter = GameObject.Find(table);
         GameObject cutItem = GameObject.Find(item);
         counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
-        counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1 * Time.deltaTime;
+        counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += .01f;
         cutItem.tag = "Untagged";
 
         if (counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
         {
+            Debug.Log("ser"); //How is there always a single "cut" in the console after this???
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
             GameObject cutFlower = Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
@@ -91,15 +94,22 @@ public class PlayerInteract : NetworkBehaviour
     [Client]
     private void ClntItemCut(Transform cutItem)
     {
+        Debug.Log("cut");
         hit.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
-        hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1 * Time.deltaTime;
+        hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += .01f;
         cutItem.tag = "Untagged";
 
         if (hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
         {
+            Debug.Log("cl");
             hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             hit.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
-            Destroy(cutItem.gameObject);
+            methodRunning = false;
+            //Destroy(cutItem.gameObject);
+        }
+        else
+        {
+            methodRunning = false;
         }
     }
 
@@ -169,10 +179,11 @@ public class PlayerInteract : NetworkBehaviour
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
             {
-                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.collider.transform.childCount > 0)
+                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.collider.transform.childCount > 1)
                 {
-                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true)
+                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true && !methodRunning)
                     {
+                        methodRunning = true;
                         CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name);
                         ClntItemCut(hit.transform.GetChild(1));
                     }

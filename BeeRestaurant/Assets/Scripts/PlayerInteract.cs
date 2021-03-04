@@ -14,6 +14,8 @@ public class PlayerInteract : NetworkBehaviour
     public GameObject cutFlowerPrefab;
     RaycastHit hit;
     bool methodRunning = false;
+    float sliderBefore;
+    float sliderAfter;
 
     [Command]
     private void CmdItemPlace(string table, string item)
@@ -24,6 +26,15 @@ public class PlayerInteract : NetworkBehaviour
         placedItem.GetComponent<Pickups>().held = false;
         placedItem.GetComponent<Pickups>().holdPlayer = null;
         placedItem.transform.parent = counter.transform;
+        CRpcItemPlace(counter.name, placedItem.name);
+    }
+
+    [ClientRpc]
+    private void CRpcItemPlace(string table, string item)
+    {
+        GameObject counter = GameObject.Find(table);
+        GameObject placedItem = GameObject.Find(item);
+        placedItem.transform.parent = counter.transform;
     }
 
     [Client]
@@ -32,7 +43,7 @@ public class PlayerInteract : NetworkBehaviour
         heldItem.transform.position = counter.transform.position + new Vector3(0, .5f, 0);
         heldItem.GetComponent<Pickups>().held = false;
         heldItem.GetComponent<Pickups>().holdPlayer = null;
-        heldItem.transform.parent = counter.transform;
+        //heldItem.transform.parent = counter.transform;
     }
 
     [Command]
@@ -59,6 +70,14 @@ public class PlayerInteract : NetworkBehaviour
         grabbedItem.GetComponent<Pickups>().held = true;
         grabbedItem.GetComponent<Pickups>().holdPlayer = grabPlayer.transform;
         grabbedItem.transform.parent = null;
+        CRpcItemGrab(grabbedItem.name);
+    }
+
+    [ClientRpc]
+    private void CRpcItemGrab(string item)
+    {
+        GameObject grabbedItem = GameObject.Find(item);
+        grabbedItem.transform.parent = null;
     }
 
     [Client]
@@ -70,31 +89,56 @@ public class PlayerInteract : NetworkBehaviour
     }
 
     [Command]
-    private void CmdItemCut(string table, string item)
+    private void CmdItemCut(string table, string item, float time)
     {
-        Debug.Log("cut");
         GameObject counter = GameObject.Find(table);
         GameObject cutItem = GameObject.Find(item);
         counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
-        counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += .01f;
+        sliderBefore = counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value;
+        counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1f * time;
+        sliderAfter = counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value - sliderBefore;
         cutItem.tag = "Untagged";
 
         if (counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
         {
-            Debug.Log("ser"); //How is there always a single "cut" in the console after this???
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
             GameObject cutFlower = Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
             cutFlower.transform.parent = cutItem.transform.parent;
             NetworkServer.Spawn(cutFlower);
             Destroy(cutItem.gameObject);
+            //Debug.Log(cutFlower.gameObject.name.Split(' ')[0]);
+            CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
         }
+        else
+        {
+            CRpcItemCut(counter.name, cutItem.name, sliderAfter);
+        }
+    }
+
+    [ClientRpc]
+    private void CRpcItemCut(string table, string item, float sliderChange)
+    {
+        GameObject counter = GameObject.Find(table);
+        GameObject cutItem = GameObject.Find(item);
+        if (cutItem.gameObject.name.Split(' ')[0] == "Flower")
+        {
+            counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
+            counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += sliderChange;
+            cutItem.tag = "Untagged";
+        }
+        else
+        {
+            counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
+            counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
+            cutItem.transform.parent = counter.transform;
+        }
+        methodRunning = false;
     }
 
     [Client]
     private void ClntItemCut(Transform cutItem)
     {
-        Debug.Log("cut");
         hit.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
         hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += .01f;
         cutItem.tag = "Untagged";
@@ -142,7 +186,7 @@ public class PlayerInteract : NetworkBehaviour
                     if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0 || (hit.collider.transform.childCount == 1 && hit.collider.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
                     {
                         CmdItemPlace(hit.transform.gameObject.name, heldItem.name);
-                        ClntItemPlace(hit.transform.gameObject);
+                        //ClntItemPlace(hit.transform.gameObject);
                         holding = false;
                     }
                     else if (hit.transform.tag == "Delivery") //&& heldItem.GetComponent<Pickups>().plated)
@@ -167,7 +211,7 @@ public class PlayerInteract : NetworkBehaviour
                     {
                         heldItem = hit.transform.gameObject;
                         CmdItemGrab(heldItem.name, this.gameObject.transform.GetChild(1).name);
-                        ClntItemGrab();
+                        //ClntItemGrab();
                         holding = true;
                     }
                 }
@@ -184,8 +228,8 @@ public class PlayerInteract : NetworkBehaviour
                     if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true && !methodRunning)
                     {
                         methodRunning = true;
-                        CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name);
-                        ClntItemCut(hit.transform.GetChild(1));
+                        CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name, Time.deltaTime);
+                        //ClntItemCut(hit.transform.GetChild(1));
                     }
                 }
             }
@@ -195,6 +239,6 @@ public class PlayerInteract : NetworkBehaviour
 
 /*
  * Issues:
- * Flowers aren't getting parented to the tables properly.  Clients work perfectly for the server and clients, host works perfectly for the server, but not the client
+ * Cutting flowers doesn't really work
  * Flowers don't spawn if they've already spawned in previous hosting without restarting program
  */

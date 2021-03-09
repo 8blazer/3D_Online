@@ -351,16 +351,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6440811405781763450}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0021251ec247b7142bd9254a93f9f77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cameraReactionTimer: 0.5
-  mainPlayerFocusDistance: 0
-  otherPlayerZoomOutDistance: 0.9
-  otherPlayerZoomInDistance: 0.6
+  cameraReactionTimer: 0.2
+  mainPlayerFocusDistance: 0.2
+  otherPlayerZoomOutDistance: 0.7
+  otherPlayerZoomInDistance: 0.15
   zoomDistance: 0.5
   thisClientsPlayer: {fileID: 6440811405781763430}
+  runCheck: 1

@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-
 public class CameraFocus : NetworkBehaviour
 {
-    //[SerializeField] private NetworkManager NM = null;
     [SerializeField] private float cameraReactionTimer = 2f;// Buffer before camera reacts to stop jitteriness
 
-    [SerializeField] private float mainPlayerFocusDistance;// Distance from center of screen main this clients player can be before camera moves horizantally(Uses fraction of current screen size)
-    //[SerializeField] private float mainPlayerFocusDistanceVertical;//"" but vertically
+    [SerializeField] private float mainPlayerFocusDistance = .2f;// Distance from center of screen main this clients player can be before camera moves horizantally(Uses fraction of current screen size)
 
     [SerializeField] private float otherPlayerZoomOutDistance = .9f; // Distance from edge of screen other players can be before the camera zooms outs(Uses fraction of current screen size)
-    //[SerializeField] private float otherPlayerZoomOutDistanceVTL = .8f;
 
     [SerializeField] private float otherPlayerZoomInDistance = .6f; // Distance from edge of screen before camera zooms in(Uses fraction of current screen size)
-    //[SerializeField] private float otherPlayerZoomInDistanceVTL = .5f;
+
     [SerializeField] private float zoomDistance = .05f; //Distance Camera moves when zooming every frame
 
     [SerializeField] private Transform thisClientsPlayer;
+
+    [SerializeField] private float MinDistanceFromPlayer = 8;
+    [SerializeField] private float MaxDistanceFromPlayer = 15;
+
+
     private List<Transform> otherPlayersTransform = new List<Transform>();
     private Camera cam;
     private bool mainPlayerIsOutOfCenter = false;
@@ -49,16 +50,17 @@ public class CameraFocus : NetworkBehaviour
 
     private float OPZoomInOutMiddleHorizontal;
 
-
-
+    private float timer;
+    public bool runCheck = true;
     [ClientCallback]
     void Start()
     {
+        if (!hasAuthority) { return; }
         cam = Camera.main;
         Vector3 transfer = new Vector3(thisClientsPlayer.transform.position.x, thisClientsPlayer.transform.position.y + 10, cam.transform.position.z);
         cam.transform.position = transfer;
 
-        //TargetFindPlayers();
+        FindPlayers();
 
         MPHorizontalFD = mainPlayerFocusDistance * Screen.width;
         MPVerticalFD = mainPlayerFocusDistance * Screen.height;
@@ -69,37 +71,44 @@ public class CameraFocus : NetworkBehaviour
 
         OPZoomInOutMiddleVertical = (OPZoomInDVertical + OPZoomOutDVertical) / 2;
         OPZoomInOutMiddleHorizontal = (OPZoomInDHorizontal + OPZoomOutDHorizontal) / 2;
-    }
-    //public override void OnStartAuthority()
-    //{
         
-    //}
+    }
     [ClientCallback]
     void Update()
     {
+        if (!hasAuthority || !runCheck) { return; }
+        timer += Time.deltaTime;
+        if(timer > 3)
+        {
+            timer = 0;
+            FindPlayers();
+        }
         Vector2 mainPlayerScreenPostion = cam.WorldToScreenPoint(thisClientsPlayer.position);
         if (mainPlayerIsOutOfCenter)
         {
+            Debug.Log("check for player");
             MoveCameraCheck(MPOOCcaseNumber);
         }
         if (!mainPlayerIsOutOfCenter && (mainPlayerScreenPostion.x > (Screen.width / 2 + MPHorizontalFD) ||
-            mainPlayerScreenPostion.x < -(Screen.width / 2 - MPHorizontalFD) ||
+            mainPlayerScreenPostion.x < (Screen.width / 2 - MPHorizontalFD) ||
             mainPlayerScreenPostion.y > (Screen.height / 2 + MPVerticalFD) ||
-            mainPlayerScreenPostion.y < -(Screen.height / 2 - MPVerticalFD)))
+            mainPlayerScreenPostion.y < (Screen.height / 2 - MPVerticalFD) ))
 
-        {
-            if (!mainPlayerStopInvoking) { Invoke(nameof(ReactionTimeCheckMoveCamera), cameraReactionTimer); }
-            mainPlayerStopInvoking = true;
+        {  
+            if (!mainPlayerStopInvoking) { Invoke(nameof(ReactionTimeCheckMoveCamera), cameraReactionTimer);
+                Debug.Log("StartInvoke");
+                mainPlayerStopInvoking = true;
+            }
         }
-        if (otherPlayerNeedsZoomOut)
+        if (otherPlayerNeedsZoomOut && Vector3.Distance(cam.transform.position, thisClientsPlayer.transform.position) < MaxDistanceFromPlayer)
         {
             ZoomCamera(0);
         }
-        if (otherPlayerNeedsZoomIn)
+        if (otherPlayerNeedsZoomIn && Vector3.Distance(cam.transform.position, thisClientsPlayer.transform.position) > MinDistanceFromPlayer)
         {
             ZoomCamera(1);
         }
-        if (!otherPlayerNeedsZoomOut)
+        if (!otherPlayerNeedsZoomOut && Vector3.Distance(cam.transform.position, thisClientsPlayer.transform.position) < MaxDistanceFromPlayer)
         {
             if(otherPlayersTransform != null)
             {
@@ -121,10 +130,9 @@ public class CameraFocus : NetworkBehaviour
                         otherPlayerNeedsZoomOut = false;
                     }
                 }
-            }
-            
+            }           
         }
-        if (!otherPlayerNeedsZoomIn)
+        if (!otherPlayerNeedsZoomIn && Vector3.Distance(cam.transform.position, thisClientsPlayer.transform.position) > MinDistanceFromPlayer)
         {
             if(otherPlayersTransform != null)
             {
@@ -152,6 +160,7 @@ public class CameraFocus : NetworkBehaviour
     [Client]
     private void MoveCameraCheck(int caseNumber)
     {
+        Debug.Log(caseNumber);
         Vector3 CurrentScreenPosition = cam.WorldToScreenPoint(thisClientsPlayer.transform.position);
         Vector2 mainPlayerScreenPostion = cam.WorldToScreenPoint(thisClientsPlayer.position);
         switch (caseNumber)
@@ -167,6 +176,7 @@ public class CameraFocus : NetworkBehaviour
                     if(!(mainPlayerScreenPostion.x > (Screen.width / 2 + MPHorizontalFD)))
                     {
                         mainPlayerIsOutOfCenter = false;
+                        Debug.Log("incenter");
                     }
                     playerOffest = new Vector3(cam.transform.position.x - thisClientsPlayer.transform.position.x,
                     cam.transform.position.y - thisClientsPlayer.transform.position.y,
@@ -185,6 +195,7 @@ public class CameraFocus : NetworkBehaviour
                     if (!(mainPlayerScreenPostion.x < (Screen.width / 2 - MPHorizontalFD)))
                     {
                         mainPlayerIsOutOfCenter = false;
+                        Debug.Log("incenter");
                     }
                     playerOffest = new Vector3(cam.transform.position.x - thisClientsPlayer.transform.position.x,
                     cam.transform.position.y - thisClientsPlayer.transform.position.y,
@@ -234,6 +245,7 @@ public class CameraFocus : NetworkBehaviour
     [Client]
     private void MoveCamera()
     {
+        Debug.Log("Mves camera");
         Vector3 newCamPosition = new Vector3(thisClientsPlayer.transform.position.x + playerOffest.x,
             thisClientsPlayer.transform.position.y + playerOffest.y, 
             cam.transform.position.z);
@@ -245,15 +257,16 @@ public class CameraFocus : NetworkBehaviour
     {
         Vector2 mainPlayerScreenPostion = cam.WorldToScreenPoint(thisClientsPlayer.position);
         if (mainPlayerScreenPostion.x > (Screen.width / 2 + MPHorizontalFD) ||
-            mainPlayerScreenPostion.x < -(Screen.width / 2 - MPHorizontalFD) ||
+            mainPlayerScreenPostion.x < (Screen.width / 2 - MPHorizontalFD) ||
             mainPlayerScreenPostion.y > (Screen.height / 2 + MPVerticalFD) ||
-            mainPlayerScreenPostion.y < -(Screen.height / 2 - MPVerticalFD))
+            mainPlayerScreenPostion.y < (Screen.height / 2 - MPVerticalFD))
         {
+            Debug.Log("Detects out of center");
             if (mainPlayerScreenPostion.x > (Screen.width / 2 + MPHorizontalFD))
             {
                 MPOOCcaseNumber = 0;
             }
-            if (mainPlayerScreenPostion.x < -(Screen.width / 2 - MPHorizontalFD))
+            if (mainPlayerScreenPostion.x < (Screen.width / 2 - MPHorizontalFD))
             {
                 MPOOCcaseNumber = 1;
             }
@@ -261,7 +274,7 @@ public class CameraFocus : NetworkBehaviour
             {
                 MPOOCcaseNumber = 2;
             }
-            if (mainPlayerScreenPostion.y < -(Screen.height / 2 - MPVerticalFD))
+            if (mainPlayerScreenPostion.y < (Screen.height / 2 - MPVerticalFD))
             {
                 MPOOCcaseNumber = 3;
             }
@@ -388,20 +401,20 @@ public class CameraFocus : NetworkBehaviour
                 break;
         }
     }
-    [TargetRpc]
-    public void TargetFindPlayers(NetworkConnection conn)
+    
+    public void FindPlayers()
     {
-        if(otherPlayersTransform != null)
-        {
-            foreach (Transform transform in otherPlayersTransform)
-            {
-                otherPlayersTransform.Remove(transform);
-            }
-        }
+        Debug.Log("Check");
+        if (!hasAuthority) { return; }
         GameObject[] allPlayerObjects = GameObject.FindGameObjectsWithTag("Player");
         foreach(GameObject player in allPlayerObjects)
         {
-            otherPlayersTransform.Add(player.transform);
+            if (otherPlayersTransform.Contains(player.transform)) { Debug.Log("Vonyinr"); continue; }
+            else if (player.transform != thisClientsPlayer.transform)
+            {
+                otherPlayersTransform.Add(player.transform);
+            }           
         }
+        Debug.Log(otherPlayersTransform);
     }
 }

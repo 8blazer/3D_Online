@@ -37,15 +37,6 @@ public class PlayerInteract : NetworkBehaviour
         placedItem.transform.parent = counter.transform;
     }
 
-    [Client]
-    private void ClntItemPlace(GameObject counter)
-    {
-        heldItem.transform.position = counter.transform.position + new Vector3(0, .5f, 0);
-        heldItem.GetComponent<Pickups>().held = false;
-        heldItem.GetComponent<Pickups>().holdPlayer = null;
-        //heldItem.transform.parent = counter.transform;
-    }
-
     [Command]
     private void CmdItemDrop(string item)
     {
@@ -80,19 +71,12 @@ public class PlayerInteract : NetworkBehaviour
         grabbedItem.transform.parent = null;
     }
 
-    [Client]
-    private void ClntItemGrab()
-    {
-        heldItem.GetComponent<Pickups>().held = true;
-        heldItem.GetComponent<Pickups>().holdPlayer = this.gameObject.transform.GetChild(1);
-        heldItem.transform.parent = null;
-    }
-
     [Command]
     private void CmdItemCut(string table, string item, float time)
     {
         GameObject counter = GameObject.Find(table);
         GameObject cutItem = GameObject.Find(item);
+        if (!cutItem.GetComponent<Pickups>().cuttable) { return; }
         counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
         sliderBefore = counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value;
         counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += 1f * time;
@@ -108,7 +92,9 @@ public class PlayerInteract : NetworkBehaviour
             NetworkServer.Spawn(cutFlower);
             Destroy(cutItem.gameObject);
             //Debug.Log(cutFlower.gameObject.name.Split(' ')[0]);
+            CmdSyncNames();
             CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
+            CRpcSyncNames();
         }
         else
         {
@@ -136,25 +122,26 @@ public class PlayerInteract : NetworkBehaviour
         methodRunning = false;
     }
 
-    [Client]
-    private void ClntItemCut(Transform cutItem)
+    [Command]
+    private void CmdSyncNames()
     {
-        hit.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
-        hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += .01f;
-        cutItem.tag = "Untagged";
+        GameObject netManager = GameObject.Find("NetManager");
+        if (netManager == null)
+        {
+            netManager = GameObject.Find("NetManager 1");
+        }
+        netManager.GetComponent<NetSync>().RefreshHeirarachy();
+    }
 
-        if (hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
+    [ClientRpc]
+    private void CRpcSyncNames()
+    {
+        GameObject netManager = GameObject.Find("NetManager");
+        if (netManager == null)
         {
-            Debug.Log("cl");
-            hit.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
-            hit.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
-            methodRunning = false;
-            //Destroy(cutItem.gameObject);
+            netManager = GameObject.Find("NetManager 1");
         }
-        else
-        {
-            methodRunning = false;
-        }
+        netManager.GetComponent<NetSync>().RefreshHeirarachy();
     }
 
     [Command]
@@ -171,6 +158,25 @@ public class PlayerInteract : NetworkBehaviour
         Destroy(heldItem);
     }
 
+    [Command]
+    private void CmdBlend(string blenderName, string itemName)
+    {
+        GameObject blender = GameObject.Find(blenderName);
+        GameObject item = GameObject.Find(itemName);
+        CRpcBlend(blender.name, item.name);
+        blender.GetComponent<Blender>().AddItem();
+        Destroy(item);
+    }
+
+    [ClientRpc]
+    private void CRpcBlend(string blenderName, string itemName)
+    {
+        GameObject blender = GameObject.Find(blenderName);
+        GameObject item = GameObject.Find(itemName);
+        blender.GetComponent<Blender>().AddItem();
+        Destroy(item);
+    }
+
     [ClientCallback]
     private void Update()
     {
@@ -183,10 +189,15 @@ public class PlayerInteract : NetworkBehaviour
             {
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
                 {
-                    if (hit.transform.tag == "ItemPlace" && hit.collider.transform.childCount == 0 || (hit.collider.transform.childCount == 1 && hit.collider.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
+                    if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.gameObject.GetComponent<Blender>().itemNumber < 4 && heldItem.name.Split(' ')[0] == "CutFlower")
+                    {
+                        CmdBlend(hit.transform.gameObject.name, heldItem.name);
+                        holding = false;
+                        heldItem = null;
+                    }
+                    else if (hit.transform.tag == "ItemPlace" && hit.transform.childCount == 0 || (hit.transform.childCount == 1 && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
                     {
                         CmdItemPlace(hit.transform.gameObject.name, heldItem.name);
-                        //ClntItemPlace(hit.transform.gameObject);
                         holding = false;
                     }
                     else if (hit.transform.tag == "Delivery") //&& heldItem.GetComponent<Pickups>().plated)
@@ -211,7 +222,6 @@ public class PlayerInteract : NetworkBehaviour
                     {
                         heldItem = hit.transform.gameObject;
                         CmdItemGrab(heldItem.name, this.gameObject.transform.GetChild(1).name);
-                        //ClntItemGrab();
                         holding = true;
                     }
                 }
@@ -223,13 +233,12 @@ public class PlayerInteract : NetworkBehaviour
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
             {
-                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.collider.transform.childCount > 1)
+                if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.transform.childCount > 1)
                 {
                     if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true && !methodRunning)
                     {
                         methodRunning = true;
                         CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name, Time.deltaTime);
-                        //ClntItemCut(hit.transform.GetChild(1));
                     }
                 }
             }

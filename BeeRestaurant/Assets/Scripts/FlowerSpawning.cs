@@ -12,10 +12,10 @@ public class FlowerSpawning : NetworkBehaviour
     [ClientRpc]
     private void SyncNames()
     {
-        GameObject netManager = GameObject.Find("NetworkManager");
+        GameObject netManager = GameObject.Find("NetManager");
         if (netManager == null)
         {
-            netManager = GameObject.Find("NetworkManager 1");
+            netManager = GameObject.Find("NetManager 1");
         }
         netManager.GetComponent<NetSync>().RefreshHeirarachy();
     }

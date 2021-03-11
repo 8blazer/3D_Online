@@ -15,10 +15,10 @@ public class NetPlayer : NetworkBehaviour
 
     private void Start()
     {
-        netManager = GameObject.Find("NetworkManager");
+        netManager = GameObject.Find("NetManager");
         if (netManager == null)
         {
-            netManager = GameObject.Find("NetworkManager 1");
+            netManager = GameObject.Find("NetManager 1");
         }
         netManager.GetComponent<NetSync>().RefreshHeirarachy();
     }

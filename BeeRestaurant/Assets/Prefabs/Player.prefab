@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4587974857522424647}
   - component: {fileID: 8080005649237693191}
   m_Layer: 0
-  m_Name: Sphere 4
+  m_Name: Sphere 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2818699517439499833}
   - component: {fileID: 684652443841114358}
   m_Layer: 0
-  m_Name: Direction 3
+  m_Name: Direction 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6440811405781763450}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0021251ec247b7142bd9254a93f9f77a, type: 3}
   m_Name: 
@@ -364,4 +364,6 @@ MonoBehaviour:
   otherPlayerZoomInDistance: 0.15
   zoomDistance: 0.5
   thisClientsPlayer: {fileID: 6440811405781763430}
+  MinDistanceFromPlayer: 8
+  MaxDistanceFromPlayer: 15
   runCheck: 1

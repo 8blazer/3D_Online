@@ -46,7 +46,7 @@ public class ColorPicker : MonoBehaviour
     }
     public void LeaveColorPicker()
     {
-        Camera.main.transform.position = gameObject.transform.position;//MainMenu Canvas
+        Camera.main.transform.position = MMCameraPosition.transform.position;//MainMenu Canvas
     }
     public void UpdateColor()
     {

@@ -50,7 +50,7 @@ public class ColorPicker : MonoBehaviour
     }
     public void UpdateColor()
     {
-        playerPreview.material.color = new Color(redColor.value / 255, blueColor.value / 255, greenColor.value / 255, 1);
+        playerPreview.material.color = new Color(redColor.value / 255, greenColor.value / 255, blueColor.value / 255, 1);
         redTcolor.text = ("R: " + redColor.value);
         blueTcolor.text = ("B: " + blueColor.value);
         greenTcolor.text = ("G: " + greenColor.value);

@@ -13,6 +13,7 @@ public class NetPlayer : NetworkBehaviour
     public Color PlayerPrefColor;
     GameObject netManager;
 
+    /*
     private void Start()
     {
         netManager = GameObject.Find("NetManager");
@@ -30,6 +31,7 @@ public class NetPlayer : NetworkBehaviour
             netManager.GetComponent<NetSync>().RefreshHeirarachy();
         }
     }
+    */
 
     #region ServerLogic
 

@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 277be2cfd94baac4b98b271b95e8f0be
   - enabled: 1
-    path: Assets/Scenes/TaranTesting.unity
-    guid: ae3207a5097ad11499e7c257263e4f28
+    path: Assets/Scenes/Lobby.unity
+    guid: bcd70cb51794165469345f3b92932abf
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 2d2086075e6e51e4d92e303c9e6036e4
+  - enabled: 1
+    path: Assets/Scenes/TaranTesting.unity
+    guid: ae3207a5097ad11499e7c257263e4f28
   m_configObjects: {}

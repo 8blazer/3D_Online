@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4587974857522424647}
   - component: {fileID: 8080005649237693191}
   m_Layer: 0
-  m_Name: Sphere 3
+  m_Name: Sphere 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2818699517439499833}
   - component: {fileID: 684652443841114358}
   m_Layer: 0
-  m_Name: Direction 2
+  m_Name: Direction 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

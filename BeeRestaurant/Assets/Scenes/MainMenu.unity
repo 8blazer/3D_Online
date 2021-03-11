@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66ed36970ca83c498c840c9f43525d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  netManager: {fileID: 1449038907}
   CPCameraPosition: {fileID: 1709755958}
   colorPicker: {fileID: 1709364428}
   joinGameCanvas: {fileID: 1040117174}
@@ -287,6 +288,7 @@ MonoBehaviour:
   quitButton: {fileID: 342025950}
   settingsButton: {fileID: 1910004851}
   cancelButton: {fileID: 1922063433}
+  address: {fileID: 801365326}
 --- !u!1 &208121086
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +608,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 342025951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68161817}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &342025951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2950,7 +2964,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 68161817}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: JoinGame
+        m_MethodName: JoinGameMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3412,7 +3426,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1312755217}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68161817}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: JoinGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1312755217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3612,6 +3638,106 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407047177}
   m_CullTransparentMesh: 1
+--- !u!1 &1449038905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1449038908}
+  - component: {fileID: 1449038907}
+  - component: {fileID: 1449038906}
+  - component: {fileID: 1449038909}
+  m_Layer: 0
+  m_Name: NetManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1449038906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449038905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 7777
+  NoDelay: 1
+  serverMaxMessageSize: 16384
+  serverMaxReceivesPerTick: 10000
+  clientMaxMessageSize: 16384
+  clientMaxReceivesPerTick: 1000
+--- !u!114 &1449038907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449038905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c414301b3488374f862d06fd03d564f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  autoStartServerBuild: 1
+  showDebugMessages: 0
+  serverTickRate: 30
+  offlineScene: Assets/Scenes/MainMenu.unity
+  onlineScene: Assets/Scenes/Lobby.unity
+  transport: {fileID: 1449038906}
+  networkAddress: localhost
+  maxConnections: 5
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 6440811405781763450, guid: ff03d6d57e6b2c44e9fdd8bad1de4d1b, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 1
+  spawnPrefabs:
+  - {fileID: 7310865006227836517, guid: bcc4283625db5f2498af13bc54e164ec, type: 3}
+  - {fileID: 4682133695359472249, guid: ad5dded90cc828a4bb8ea80bce254999, type: 3}
+  - {fileID: 8321846546054277414, guid: 8c1e66832002b1d4793fcb690a743697, type: 3}
+  - {fileID: 6038613646097641208, guid: 2917fd4cb59d305419702d45406aaca5, type: 3}
+  - {fileID: 5741798622981057581, guid: 0b227d77cbc2ee24db6629015519e804, type: 3}
+  - {fileID: 7875008101504606775, guid: 244167bd4e9773846ac2c619064ca801, type: 3}
+  connections: 0
+  isGameStarted: 0
+--- !u!4 &1449038908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449038905}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 772.592, y: 286.8939, z: -42.535408}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1449038909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449038905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4ced1f21a1a3e43831430092ba15be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1579816089
 GameObject:
   m_ObjectHideFlags: 0
@@ -4440,7 +4566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1922063434}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68161817}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: Cancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1922063434
 MonoBehaviour:
   m_ObjectHideFlags: 0

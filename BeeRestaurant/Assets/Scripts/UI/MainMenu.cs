@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Mirror;
 
 public class MainMenu : MonoBehaviour
 {
+    public NetworkManager netManager;
     [SerializeField] private Transform CPCameraPosition;
     [SerializeField] private ColorPicker colorPicker;
     public Canvas joinGameCanvas;
@@ -16,6 +18,7 @@ public class MainMenu : MonoBehaviour
     public Button quitButton;
     public Button settingsButton;
     public Button cancelButton;
+    public InputField address;
     public void Settings()
     {
 
@@ -27,13 +30,12 @@ public class MainMenu : MonoBehaviour
     }
     public void HostGame()
     {
-        SceneManager.LoadScene("Lobby");
+        NetworkManager.singleton.StartHost();
     }
-    public void JoinGame()
+    public void JoinGameMenu()
     {
         joinGameCanvas.GetComponent<Canvas>().enabled = true;
-
-        joinGameCanvas.GetComponent<Canvas>().enabled = true;
+        
         hostButton.GetComponent<Button>().enabled = false;
         joinMenuButton.GetComponent<Button>().enabled = false;
         customizeButton.GetComponent<Button>().enabled = false;
@@ -46,5 +48,27 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public void JoinGame()
+    {
+        if (address.text == "")
+        {
+            address.text = "localhost";
+        }
+        NetworkManager.singleton.networkAddress = address.text;
+        NetworkManager.singleton.StartClient();
+    }
+    public void Cancel()
+    {
+        joinGameCanvas.GetComponent<Canvas>().enabled = false;
+        
+        hostButton.GetComponent<Button>().enabled = true;
+        joinMenuButton.GetComponent<Button>().enabled = true;
+        customizeButton.GetComponent<Button>().enabled = true;
+        quitButton.GetComponent<Button>().enabled = true;
+        settingsButton.GetComponent<Button>().enabled = true;
+
+        joinGameButton.GetComponent<Button>().enabled = false;
+        cancelButton.GetComponent<Button>().enabled = false;
     }
 }

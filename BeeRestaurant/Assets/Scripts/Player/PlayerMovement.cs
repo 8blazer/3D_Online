@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : NetworkBehaviour
 {
     public float speed = 5f;
+    private GameObject pauseMenu;
 
     [Command]
     private void CmdMove(Vector3 velocity)
@@ -31,6 +33,18 @@ public class PlayerMovement : NetworkBehaviour
     private void Update()
     {
         if (!hasAuthority) { return; }
+
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            if (pauseMenu == null)
+            {
+                pauseMenu = GameObject.Find("PauseMenu");
+            }
+            if (pauseMenu.GetComponent<Canvas>().enabled)
+            {
+                return;
+            }
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");

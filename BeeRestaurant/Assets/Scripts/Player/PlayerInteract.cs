@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteract : NetworkBehaviour
 {
@@ -13,9 +14,9 @@ public class PlayerInteract : NetworkBehaviour
     public GameObject heldItem = null;
     public GameObject cutFlowerPrefab;
     RaycastHit hit;
-    bool methodRunning = false;
     float sliderBefore;
     float sliderAfter;
+    private GameObject pauseMenu;
 
     [Command]
     private void CmdItemPlace(string table, string item)
@@ -43,11 +44,13 @@ public class PlayerInteract : NetworkBehaviour
         GameObject droppedItem = GameObject.Find(item);
         droppedItem.GetComponent<Pickups>().held = false;
         droppedItem.GetComponent<Pickups>().holdPlayer = null;
+        CRpcItemDrop(droppedItem.name);
     }
 
-    [Client]
-    private void ClntItemDrop()
+    [ClientRpc]
+    private void CRpcItemDrop(string item)
     {
+        GameObject droppedItem = GameObject.Find(item);
         heldItem.GetComponent<Pickups>().held = false;
         heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
@@ -83,7 +86,7 @@ public class PlayerInteract : NetworkBehaviour
         sliderAfter = counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value - sliderBefore;
         cutItem.tag = "Untagged";
 
-        if (counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value > .99f)
+        if (counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value == 1)
         {
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
@@ -93,8 +96,8 @@ public class PlayerInteract : NetworkBehaviour
             Destroy(cutItem.gameObject);
             //Debug.Log(cutFlower.gameObject.name.Split(' ')[0]);
             CmdSyncNames();
-            CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
             CRpcSyncNames();
+            CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
         }
         else
         {
@@ -105,6 +108,7 @@ public class PlayerInteract : NetworkBehaviour
     [ClientRpc]
     private void CRpcItemCut(string table, string item, float sliderChange)
     {
+        if (NetworkServer.active && NetworkClient.isConnected) { return; }
         GameObject counter = GameObject.Find(table);
         GameObject cutItem = GameObject.Find(item);
         if (cutItem.gameObject.name.Split(' ')[0] == "Flower")
@@ -118,8 +122,13 @@ public class PlayerInteract : NetworkBehaviour
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
             cutItem.transform.parent = counter.transform;
+            GameObject netManager = GameObject.Find("NetManager");
+            if (netManager == null)
+            {
+                netManager = GameObject.Find("NetManager 1");
+            }
+            netManager.GetComponent<NetSync>().RefreshHeirarachy();
         }
-        methodRunning = false;
     }
 
     [Command]
@@ -148,14 +157,15 @@ public class PlayerInteract : NetworkBehaviour
     private void CmdDeliver(string item)
     {
         GameObject deliveredItem = GameObject.Find(item);
+        CRpcDeliver(deliveredItem.name);
         Destroy(deliveredItem);
     }
 
-    [Client]
-    private void ClntDeliver()
+    [ClientRpc]
+    private void CRpcDeliver(string item)
     {
-        holding = false;
-        Destroy(heldItem);
+        GameObject deliveredItem = GameObject.Find(item);
+        Destroy(deliveredItem);
     }
 
     [Command]
@@ -171,6 +181,7 @@ public class PlayerInteract : NetworkBehaviour
     [ClientRpc]
     private void CRpcBlend(string blenderName, string itemName)
     {
+        if (NetworkServer.active && NetworkClient.isConnected) { return; }
         GameObject blender = GameObject.Find(blenderName);
         GameObject item = GameObject.Find(itemName);
         blender.GetComponent<Blender>().AddItem();
@@ -182,9 +193,20 @@ public class PlayerInteract : NetworkBehaviour
     {
         if (!hasAuthority) { return; }
 
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            if (pauseMenu == null)
+            {
+                pauseMenu = GameObject.Find("PauseMenu");
+            }
+            if (pauseMenu.GetComponent<Canvas>().enabled)
+            {
+                return;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.DrawRay(transform.position, transform.forward, Color.green, 5);
             if (holding)
             {
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
@@ -204,13 +226,11 @@ public class PlayerInteract : NetworkBehaviour
                     {
                         holding = false;
                         CmdDeliver(heldItem.name);
-                        ClntDeliver();
                     }
                 }
                 else
                 {
                     CmdItemDrop(heldItem.name);
-                    ClntItemDrop();
                     holding = false;
                 }
             }
@@ -235,9 +255,8 @@ public class PlayerInteract : NetworkBehaviour
             {
                 if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.transform.childCount > 1)
                 {
-                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true && !methodRunning)
+                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true) // && !methodRunning)
                     {
-                        methodRunning = true;
                         CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name, Time.deltaTime);
                     }
                 }
@@ -248,6 +267,5 @@ public class PlayerInteract : NetworkBehaviour
 
 /*
  * Issues:
- * Cutting flowers doesn't really work
- * Flowers don't spawn if they've already spawned in previous hosting without restarting program
+ * It appears that the info of holding and the pairing the held items to the player kinda stuff isn't getting translated properly again?
  */

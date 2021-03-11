@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class FlowerGrowing : MonoBehaviour
 {
@@ -9,10 +10,12 @@ public class FlowerGrowing : MonoBehaviour
     public bool isGrown;
     private float timer;
 
+    [ServerCallback]
     void Start()
     {
         gameObject.tag = "Untagged";
     }
+    [ServerCallback]
     void FixedUpdate()
     {
         if(gameObject.transform.localScale == Vector3.one)
@@ -26,6 +29,7 @@ public class FlowerGrowing : MonoBehaviour
             timer = 0;
         }
     }
+    [Server]
     private void Grow()
     {
         Vector3 transfer1 = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + upwardsGrowth, gameObject.transform.position.z);

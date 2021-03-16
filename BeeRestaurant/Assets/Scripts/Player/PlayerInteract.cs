@@ -251,6 +251,12 @@ public class PlayerInteract : NetworkBehaviour
         {
             colliders = Physics.OverlapBox(transform.position, new Vector3(0, 0, 0), Quaternion.identity);
 
+            if(holding && heldItem.TryGetComponent<Seed>(out Seed seedComponent))
+            {
+                seedComponent.CmdPlantFlower();
+                holding = false;
+                heldItem = null;
+            }
             if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
             {
                 if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.transform.childCount > 1)

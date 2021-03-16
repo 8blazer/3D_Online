@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7764443471527603120}
   - component: {fileID: 6660546386763703317}
   - component: {fileID: 8902478398901653727}
+  - component: {fileID: 8084299481495638919}
+  - component: {fileID: 5113208921160456973}
   m_Layer: 0
   m_Name: BlueSeed
   m_TagString: Untagged
@@ -82,3 +84,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8084299481495638919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956663530773852426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &5113208921160456973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956663530773852426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfedc2d954a2ed48aa0c536615e4325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  flowerType: {fileID: 7310865006227836517, guid: 991c3034bb3358c499bd6259def922cb, type: 3}
+  spawnDistanceAboveGround: 0.2

@@ -12,9 +12,11 @@ public class ColorPicker : MonoBehaviour
     [SerializeField] private Text redTcolor;
     [SerializeField] private Text blueTcolor;
     [SerializeField] private Text greenTcolor;
-    [SerializeField] private Renderer playerPreview;
+    [SerializeField] private Renderer[] playerPreviewColors = new Renderer[3];
+    [SerializeField] private Transform playerPreview;
     [SerializeField] private Transform hatPreview;
-    [SerializeField] public static List<GameObject> hatSkins = new List<GameObject>();
+
+    
     private GameObject currentHat;
     private int hatNumber;
     private float previousColorRed;
@@ -24,7 +26,7 @@ public class ColorPicker : MonoBehaviour
     void Update()
     {
         Vector3 transfer = new Vector3(playerPreview.transform.eulerAngles.x,
-            playerPreview.transform.eulerAngles.y + .05f, playerPreview.transform.eulerAngles.z);
+            playerPreview.transform.eulerAngles.y + .08f, playerPreview.transform.eulerAngles.z);
         playerPreview.transform.eulerAngles = transfer;
         if (redColor.value != previousColorRed ||
             blueColor.value != previousColorBlue ||
@@ -50,13 +52,18 @@ public class ColorPicker : MonoBehaviour
     }
     public void UpdateColor()
     {
-        playerPreview.material.color = new Color(redColor.value / 255, greenColor.value / 255, blueColor.value / 255, 1);
+        foreach(Renderer rend in playerPreviewColors)
+        {
+            rend.material.color = new Color(redColor.value / 255, greenColor.value / 255, blueColor.value / 255, 1);
+        }
         redTcolor.text = ("R: " + redColor.value);
         blueTcolor.text = ("B: " + blueColor.value);
         greenTcolor.text = ("G: " + greenColor.value);
     }
     public void OpenColorPicker()
     {
+        if(currentHat != null) { Destroy(currentHat); }
+        currentHat = Instantiate(HatList.hatListReference.hatList[PlayerPrefs.GetInt("HatNumber")], hatPreview);
         redColor.value = Mathf.FloorToInt(255 * PlayerPrefs.GetFloat("PCredValue"));
         blueColor.value = Mathf.FloorToInt(255 * PlayerPrefs.GetFloat("PCblueValue"));
         greenColor.value = Mathf.FloorToInt(255 * PlayerPrefs.GetFloat("PCgreenValue"));
@@ -66,32 +73,32 @@ public class ColorPicker : MonoBehaviour
     #region HatNumber
     public void Hat0()
     {
-        if (currentHat == null) { Destroy(currentHat); }
-        currentHat = Instantiate(hatSkins[0], hatPreview);
+        if (currentHat != null) { Destroy(currentHat);}
+        currentHat = Instantiate(HatList.hatListReference.hatList[0], hatPreview);
         hatNumber = 0;
     }
     public void Hat1()
     {
-        if (currentHat == null) { Destroy(currentHat); }
-        currentHat = Instantiate(hatSkins[1], hatPreview);
+        if (currentHat != null) { Destroy(currentHat); }
+        currentHat = Instantiate(HatList.hatListReference.hatList[1], hatPreview);
         hatNumber = 1;
     }
     public void Hat2()
     {
-        if (currentHat == null) { Destroy(currentHat); }
-        currentHat = Instantiate(hatSkins[2], hatPreview);
+        if (currentHat != null) { Destroy(currentHat); }
+        currentHat = Instantiate(HatList.hatListReference.hatList[2], hatPreview);
         hatNumber = 2;
     }
     public void Hat3()
     {
-        if (currentHat == null) { Destroy(currentHat); }
-        currentHat = Instantiate(hatSkins[3], hatPreview);
+        if (currentHat != null) { Destroy(currentHat); }
+        currentHat = Instantiate(HatList.hatListReference.hatList[3], hatPreview);
         hatNumber = 3;
     }
     public void Hat4()
     {
-        if (currentHat == null) { Destroy(currentHat); }
-        currentHat = Instantiate(hatSkins[4], hatPreview);
+        if (currentHat != null) { Destroy(currentHat); }
+        currentHat = Instantiate(HatList.hatListReference.hatList[4], hatPreview);
         hatNumber = 4;
     }
     #endregion

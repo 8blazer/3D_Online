@@ -14,8 +14,9 @@ public class NetManager : NetworkManager
         base.OnServerAddPlayer(conn);
         connections++;
         NetPlayer player = conn.identity.GetComponent<NetPlayer>();
-        player.TargetGetPlayerPrefColor();
-        CameraFocus playerCamera = conn.identity.GetComponent<CameraFocus>();
+        player.TargetGetPlayerCustomization();
+        //CameraFocus playerCamera = conn.identity.GetComponent<CameraFocus>(); forgot why this here
+
     }
 
    

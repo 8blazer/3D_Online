@@ -5,7 +5,7 @@ using Mirror;
 
 public class NetPlayer : NetworkBehaviour
 {
-    [SerializeField] private Renderer displayerColorRenderer = null;
+    [SerializeField] private Renderer[] displayerColorRenderers = new Renderer[3];
 
     [SyncVar(hook = nameof(HandleDisplayColorUpdated))]
     [SerializeField]
@@ -36,9 +36,11 @@ public class NetPlayer : NetworkBehaviour
     #region ServerLogic
 
     [Command]
-    public void CmdSetColor(Color color)
+    private void CmdSetCustomization(Color color, int hatNumber)
     {
         playerColor = color;
+        GameObject hat = Instantiate(HatList.hatListReference.hatList[hatNumber], gameObject.transform.Find("HatPosition 1"));
+        NetworkServer.Spawn(hat);
     }
     #endregion
 
@@ -46,17 +48,21 @@ public class NetPlayer : NetworkBehaviour
 
     private void HandleDisplayColorUpdated(Color oldColor, Color newColor)
     {
-        displayerColorRenderer.material.SetColor("_BaseColor", newColor);
+        foreach(Renderer rend in displayerColorRenderers)
+        {
+            rend.material.SetColor("_BaseColor", newColor);
+        }
+
     }
     [TargetRpc]
-    public void TargetGetPlayerPrefColor()
+    public void TargetGetPlayerCustomization()
     {
         PlayerPrefColor = new Color(
     PlayerPrefs.GetFloat("PCredValue"),
     PlayerPrefs.GetFloat("PCgreenValue"),
     PlayerPrefs.GetFloat("PCblueValue")
     );
-        CmdSetColor(PlayerPrefColor);
+        CmdSetCustomization(PlayerPrefColor, PlayerPrefs.GetInt("HatNumber"));
     }
     #endregion
 }

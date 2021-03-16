@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9095758917927067873}
   - component: {fileID: 5302279505743540036}
   - component: {fileID: 7958296325282175886}
+  - component: {fileID: 7185846137586831403}
+  - component: {fileID: 2741631131801502580}
   m_Layer: 0
   m_Name: RedSeed
   m_TagString: Untagged
@@ -82,3 +84,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7185846137586831403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462668491824183899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &2741631131801502580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462668491824183899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfedc2d954a2ed48aa0c536615e4325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  flowerType: {fileID: 7310865006227836517, guid: bcc4283625db5f2498af13bc54e164ec, type: 3}
+  spawnDistanceAboveGround: 0.2

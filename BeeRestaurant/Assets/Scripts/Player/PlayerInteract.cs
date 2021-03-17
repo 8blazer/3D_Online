@@ -23,7 +23,7 @@ public class PlayerInteract : NetworkBehaviour
     {
         GameObject counter = GameObject.Find(table);
         GameObject placedItem = GameObject.Find(item);
-        placedItem.transform.position = counter.transform.position + new Vector3(0, .5f, 0);
+        placedItem.transform.position = counter.transform.position + new Vector3(0, placedItem.GetComponent<Pickups>().placedHeight, 0);
         placedItem.GetComponent<Pickups>().held = false;
         placedItem.GetComponent<Pickups>().holdPlayer = null;
         placedItem.transform.parent = counter.transform;
@@ -64,13 +64,15 @@ public class PlayerInteract : NetworkBehaviour
         grabbedItem.GetComponent<Pickups>().held = true;
         grabbedItem.GetComponent<Pickups>().holdPlayer = grabPlayer.transform;
         grabbedItem.transform.parent = null;
-        CRpcItemGrab(grabbedItem.name);
+        CRpcItemGrab(grabbedItem.name, grabPlayer.name);
     }
 
     [ClientRpc]
-    private void CRpcItemGrab(string item)
+    private void CRpcItemGrab(string item, string player)
     {
         GameObject grabbedItem = GameObject.Find(item);
+        GameObject grabPlayer = GameObject.Find(player);
+        grabbedItem.GetComponent<Pickups>().holdPlayer = grabPlayer.transform;
         grabbedItem.transform.parent = null;
     }
 
@@ -174,7 +176,10 @@ public class PlayerInteract : NetworkBehaviour
         GameObject blender = GameObject.Find(blenderName);
         GameObject item = GameObject.Find(itemName);
         CRpcBlend(blender.name, item.name);
-        blender.GetComponent<Blender>().AddItem();
+        if (item.name.Split(' ')[0] == "RedPollen")
+        {
+            blender.GetComponent<Blender>().AddItem("red");
+        }
         Destroy(item);
     }
 
@@ -184,7 +189,10 @@ public class PlayerInteract : NetworkBehaviour
         if (NetworkServer.active && NetworkClient.isConnected) { return; }
         GameObject blender = GameObject.Find(blenderName);
         GameObject item = GameObject.Find(itemName);
-        blender.GetComponent<Blender>().AddItem();
+        if (item.name.Split(' ')[0] == "RedPollen")
+        {
+            blender.GetComponent<Blender>().AddItem("red");
+        }
         Destroy(item);
     }
 
@@ -195,9 +203,10 @@ public class PlayerInteract : NetworkBehaviour
 
         if (SceneManager.GetActiveScene().name == "GameScene")
         {
+            pauseMenu = GameObject.Find("PauseMenu");
             if (pauseMenu == null)
             {
-                pauseMenu = GameObject.Find("PauseMenu");
+                pauseMenu = GameObject.Find("PauseMenu 1");
             }
             if (pauseMenu.GetComponent<Canvas>().enabled)
             {
@@ -216,6 +225,10 @@ public class PlayerInteract : NetworkBehaviour
                         CmdBlend(hit.transform.gameObject.name, heldItem.name);
                         holding = false;
                         heldItem = null;
+                    }
+                    else if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.GetComponent<Blender>().completedDish != "" && heldItem.name.Split(' ')[0] == "Cup")
+                    {
+                        heldItem.GetComponent<Pickups>().CupFill(hit.transform.GetComponent<Blender>().completedDish);
                     }
                     else if (hit.transform.tag == "ItemPlace" && hit.transform.childCount == 0 || (hit.transform.childCount == 1 && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
                     {
@@ -236,12 +249,13 @@ public class PlayerInteract : NetworkBehaviour
             }
             else
             {
+
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, grabLayerMask))
                 {
                     if (hit.transform.gameObject.tag == "Pickup")
                     {
                         heldItem = hit.transform.gameObject;
-                        CmdItemGrab(heldItem.name, this.gameObject.transform.GetChild(1).name);
+                        CmdItemGrab(heldItem.name, this.gameObject.transform.GetChild(0).name);
                         holding = true;
                     }
                 }

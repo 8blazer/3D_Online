@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 143751713765081666}
   - component: {fileID: 3914031568177155559}
   - component: {fileID: 1276095053421197613}
+  - component: {fileID: 2317755180426270072}
   m_Layer: 0
   m_Name: Chef Hat
   m_TagString: Untagged
@@ -81,3 +82,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2317755180426270072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771634788894382328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0

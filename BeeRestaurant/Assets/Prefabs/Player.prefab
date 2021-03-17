@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1440275276754628825}
   m_Layer: 0
-  m_Name: HatPosition
+  m_Name: HatPosition 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,9 +39,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2818699517439499833}
-  - component: {fileID: 684652443841114358}
+  - component: {fileID: 5988478701831936545}
   m_Layer: 0
-  m_Name: Direction 1
+  m_Name: Direction 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ Transform:
   m_Father: {fileID: 6440811405781763430}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!212 &684652443841114358
+--- !u!212 &5988478701831936545
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8391222552659086748, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube 2
+      value: Cube 5
       objectReference: {fileID: 0}
     - target: {fileID: -8143710011712545758, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -393,11 +393,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7640558969779515294, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.004 1
+      value: Cube.004 3
       objectReference: {fileID: 0}
     - target: {fileID: -7146521406498821007, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.003 1
+      value: Cube.003 3
       objectReference: {fileID: 0}
     - target: {fileID: -6093592463355912122, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -405,11 +405,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5317621499353570459, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.008 1
+      value: Icosphere.008 3
       objectReference: {fileID: 0}
     - target: {fileID: -5117700066308340382, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere 1
+      value: Icosphere 3
       objectReference: {fileID: 0}
     - target: {fileID: -4683669308469848369, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -437,7 +437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1599826595754709761, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.005 1
+      value: Cube.005 3
       objectReference: {fileID: 0}
     - target: {fileID: -1461304994638716399, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -445,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1410316370199355845, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.005 1
+      value: Icosphere.005 3
       objectReference: {fileID: 0}
     - target: {fileID: -1120989108687609925, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -461,31 +461,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -516098083770646512, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.001 1
+      value: Cube.001 3
       objectReference: {fileID: 0}
     - target: {fileID: -466329591000292508, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.006 1
+      value: Cube.006 3
       objectReference: {fileID: 0}
     - target: {fileID: -346642047233286542, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.007 1
+      value: Icosphere.007 3
       objectReference: {fileID: 0}
     - target: {fileID: -241861608055726361, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.004 1
+      value: Icosphere.004 3
       objectReference: {fileID: 0}
     - target: {fileID: -208595431880416365, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.007 1
+      value: Cube.007 3
       objectReference: {fileID: 0}
     - target: {fileID: 117214286460000749, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.001 1
+      value: Icosphere.001 3
       objectReference: {fileID: 0}
     - target: {fileID: 281855664364225751, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.008 1
+      value: Cube.008 3
       objectReference: {fileID: 0}
     - target: {fileID: 776046731749314290, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -493,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: MrBee 2
+      value: MrBee 3
       objectReference: {fileID: 0}
     - target: {fileID: 1661007495284504970, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -509,7 +509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6443852219947562045, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.002 1
+      value: Icosphere.002 3
       objectReference: {fileID: 0}
     - target: {fileID: 6745302439343835087, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -517,11 +517,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7012509476274988224, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.006 1
+      value: Icosphere.006 3
       objectReference: {fileID: 0}
     - target: {fileID: 8416272007918961125, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.002 1
+      value: Cube.002 3
       objectReference: {fileID: 0}
     - target: {fileID: 8571722093453967525, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -529,7 +529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8582293574316785276, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.003 1
+      value: Icosphere.003 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}

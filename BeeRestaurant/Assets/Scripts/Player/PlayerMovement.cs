@@ -36,9 +36,10 @@ public class PlayerMovement : NetworkBehaviour
 
         if (SceneManager.GetActiveScene().name == "GameScene")
         {
+            pauseMenu = GameObject.Find("PauseMenu");
             if (pauseMenu == null)
             {
-                pauseMenu = GameObject.Find("PauseMenu");
+                pauseMenu = GameObject.Find("PauseMenu 1");
             }
             if (pauseMenu.GetComponent<Canvas>().enabled)
             {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1070987049546824845}
   - component: {fileID: 4705708483707590496}
   m_Layer: 0
-  m_Name: Sphere.005 3
+  m_Name: Sphere.005 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,6 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557784492850949681}
+  - component: {fileID: 5519985500486100369}
   m_Layer: 0
   m_Name: Crown
   m_TagString: Untagged
@@ -118,6 +119,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5519985500486100369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2221836003307320459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &2354765066802841562
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +147,7 @@ GameObject:
   - component: {fileID: 6371617451049300383}
   - component: {fileID: 8207667907424091909}
   m_Layer: 0
-  m_Name: Cylinder 4
+  m_Name: Cylinder 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +228,7 @@ GameObject:
   - component: {fileID: 6187974676767476590}
   - component: {fileID: 7097386109460380071}
   m_Layer: 0
-  m_Name: Sphere.001 4
+  m_Name: Sphere.001 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,7 +309,7 @@ GameObject:
   - component: {fileID: 8306115179623013083}
   - component: {fileID: 7727228726173189389}
   m_Layer: 0
-  m_Name: Sphere.003 3
+  m_Name: Sphere.003 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,7 +390,7 @@ GameObject:
   - component: {fileID: 7291024751465106447}
   - component: {fileID: 5535574306181255032}
   m_Layer: 0
-  m_Name: Sphere.002 3
+  m_Name: Sphere.002 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,7 +471,7 @@ GameObject:
   - component: {fileID: 5262369043091646868}
   - component: {fileID: 8841759185926554778}
   m_Layer: 0
-  m_Name: Sphere.004 3
+  m_Name: Sphere.004 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -535,7 +552,7 @@ GameObject:
   - component: {fileID: 8757460435510606015}
   - component: {fileID: 5023881160151592096}
   m_Layer: 0
-  m_Name: Sphere 5
+  m_Name: Sphere 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

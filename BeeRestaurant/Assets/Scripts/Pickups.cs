@@ -27,7 +27,7 @@ public class Pickups : NetworkBehaviour
         }
     }
 
-    public void CmdCupFill(string smoothie)
+    public void CupFill(string smoothie)
     {
 
     }

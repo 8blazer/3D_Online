@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6439617026087522792}
   - component: {fileID: 2389749256866750371}
   m_Layer: 8
-  m_Name: CutFlower
+  m_Name: RedPollen
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,6 +130,7 @@ MonoBehaviour:
   syncInterval: 0.1
   held: 0
   counter: 0
+  blendable: 1
   placedHeight: 0.5
   holdPlayer: {fileID: 0}
   cuttable: 0

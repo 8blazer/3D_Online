@@ -12,18 +12,7 @@ public class Blender : NetworkBehaviour
     public Canvas blenderCanvas;
     public Slider blenderSlider;
     float fireTimer;
-    List<string> ingredients = new List<string>();
-    List<string> possibleRecipes = new List<string>();
-
-    private void Start()
-    {
-        possibleRecipes.Add("red");
-        possibleRecipes.Add("yellow");
-        possibleRecipes.Add("blue");
-        possibleRecipes.Add("green");
-        possibleRecipes.Add("orange");
-        possibleRecipes.Add("purple");
-    }
+    public List<string> ingredients = new List<string>();
 
     // Update is called once per frame
     void Update()

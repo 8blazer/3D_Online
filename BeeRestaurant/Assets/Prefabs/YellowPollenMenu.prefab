@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2815139470147914513}
   - component: {fileID: -7433017630575753707}
   m_Layer: 5
-  m_Name: YellowPollen
+  m_Name: YellowPollenMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

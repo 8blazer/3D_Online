@@ -7,6 +7,7 @@ public class Pickups : NetworkBehaviour
 {
     public bool held = false;
     public bool counter = false;
+    public bool blendable = false;
     public float placedHeight;
     public Transform holdPlayer = null;
     public bool cuttable = true;

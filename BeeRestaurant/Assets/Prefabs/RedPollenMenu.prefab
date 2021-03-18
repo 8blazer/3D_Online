@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5377935797347418210}
   - component: {fileID: 3435738583679831626}
   m_Layer: 5
-  m_Name: RedPollen
+  m_Name: RedPollenMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

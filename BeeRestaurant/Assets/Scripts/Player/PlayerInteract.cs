@@ -12,7 +12,21 @@ public class PlayerInteract : NetworkBehaviour
     public LayerMask grabLayerMask;
     public LayerMask dropLayerMask;
     public GameObject heldItem = null;
-    public GameObject cutFlowerPrefab;
+    public GameObject redPollenPrefab;
+    public GameObject bluePollenPrefab;
+    public GameObject yellowPollenPrefab;
+    public GameObject redSmoothiePrefab;
+    public GameObject blueSmoothiePrefab;
+    public GameObject yellowSmoothiePrefab;
+    public GameObject orangeSmoothiePrefab;
+    public GameObject greenSmoothiePrefab;
+    public GameObject purpleSmoothiePrefab;
+    public Color red;
+    public Color blue;
+    public Color yellow;
+    public Color orange;
+    public Color green;
+    public Color purple;
     RaycastHit hit;
     float sliderBefore;
     float sliderAfter;
@@ -55,7 +69,7 @@ public class PlayerInteract : NetworkBehaviour
         heldItem.GetComponent<Pickups>().holdPlayer = null;
     }
 
-    
+
     [Command]
     private void CmdItemGrab(string item, string player)
     {
@@ -92,14 +106,39 @@ public class PlayerInteract : NetworkBehaviour
         {
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value = 0;
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = false;
-            GameObject cutFlower = Instantiate(cutFlowerPrefab, cutItem.transform.position, Quaternion.identity);
-            cutFlower.transform.parent = cutItem.transform.parent;
-            NetworkServer.Spawn(cutFlower);
-            Destroy(cutItem.gameObject);
-            //Debug.Log(cutFlower.gameObject.name.Split(' ')[0]);
-            CmdSyncNames();
-            CRpcSyncNames();
-            CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
+            if (cutItem.name.Split(' ')[0] == "RedFlower")
+            {
+                GameObject cutFlower = Instantiate(redPollenPrefab, cutItem.transform.position, Quaternion.identity);
+                cutFlower.transform.position = new Vector3(cutFlower.transform.position.x, cutFlower.GetComponent<Pickups>().placedHeight + .7f, cutFlower.transform.position.z);
+                cutFlower.transform.parent = cutItem.transform.parent;
+                NetworkServer.Spawn(cutFlower);
+                NetworkServer.Destroy(cutItem);
+                CmdSyncNames();
+                CRpcSyncNames();
+                CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
+            }
+            else if (cutItem.name.Split(' ')[0] == "BlueFlower")
+            {
+                GameObject cutFlower = Instantiate(bluePollenPrefab, cutItem.transform.position, Quaternion.identity);
+                cutFlower.transform.position = new Vector3(cutFlower.transform.position.x, cutFlower.GetComponent<Pickups>().placedHeight + .7f, cutFlower.transform.position.z);
+                cutFlower.transform.parent = cutItem.transform.parent;
+                NetworkServer.Spawn(cutFlower);
+                NetworkServer.Destroy(cutItem);
+                CmdSyncNames();
+                CRpcSyncNames();
+                CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
+            }
+            else
+            {
+                GameObject cutFlower = Instantiate(yellowPollenPrefab, cutItem.transform.position, Quaternion.identity);
+                cutFlower.transform.position = new Vector3(cutFlower.transform.position.x, cutFlower.GetComponent<Pickups>().placedHeight + .7f, cutFlower.transform.position.z);
+                cutFlower.transform.parent = cutItem.transform.parent;
+                NetworkServer.Spawn(cutFlower);
+                NetworkServer.Destroy(cutItem);
+                CmdSyncNames();
+                CRpcSyncNames();
+                CRpcItemCut(counter.name, cutFlower.name, sliderAfter);
+            }
         }
         else
         {
@@ -113,7 +152,7 @@ public class PlayerInteract : NetworkBehaviour
         if (NetworkServer.active && NetworkClient.isConnected) { return; }
         GameObject counter = GameObject.Find(table);
         GameObject cutItem = GameObject.Find(item);
-        if (cutItem.gameObject.name.Split(' ')[0] == "Flower")
+        if (cutItem.gameObject.name.Split(' ')[0] == "RedFlower" || cutItem.gameObject.name.Split(' ')[0] == "BlueFlower" || cutItem.gameObject.name.Split(' ')[0] == "YellowFlower")
         {
             counter.transform.GetChild(0).GetComponent<Canvas>().enabled = true;
             counter.transform.GetChild(0).GetChild(0).GetComponent<Slider>().value += sliderChange;
@@ -180,6 +219,14 @@ public class PlayerInteract : NetworkBehaviour
         {
             blender.GetComponent<Blender>().AddItem("red");
         }
+        else if (item.name.Split(' ')[0] == "BluePollen")
+        {
+            blender.GetComponent<Blender>().AddItem("blue");
+        }
+        else
+        {
+            blender.GetComponent<Blender>().AddItem("yellow");
+        }
         Destroy(item);
     }
 
@@ -193,7 +240,69 @@ public class PlayerInteract : NetworkBehaviour
         {
             blender.GetComponent<Blender>().AddItem("red");
         }
+        else if (item.name.Split(' ')[0] == "BluePollen")
+        {
+            blender.GetComponent<Blender>().AddItem("blue");
+        }
+        else
+        {
+            blender.GetComponent<Blender>().AddItem("yellow");
+        }
         Destroy(item);
+    }
+
+    [Command]
+    private void CmdCupFill(string item, string blenderName)
+    {
+        GameObject cup = GameObject.Find(item);
+        GameObject blender = GameObject.Find(blenderName);
+        CRpcCupFill(cup.name, blender.name);
+    }
+
+    [ClientRpc]
+    private void CRpcCupFill(string item, string blenderName)
+    {
+        GameObject cup = GameObject.Find(item);
+        GameObject blender = GameObject.Find(blenderName);
+        if (blender.GetComponent<Blender>().completedDish == "red")
+        {
+            cup.GetComponent<MeshRenderer>().material.color = red;
+        }
+        else if (blender.GetComponent<Blender>().completedDish == "blue")
+        {
+            cup.GetComponent<MeshRenderer>().material.color = blue;
+        }
+        else if (blender.GetComponent<Blender>().completedDish == "yellow")
+        {
+            cup.GetComponent<MeshRenderer>().material.color = yellow;
+        }
+        else if (blender.GetComponent<Blender>().completedDish == "orange")
+        {
+            cup.GetComponent<MeshRenderer>().material.color = orange;
+        }
+        else if (blender.GetComponent<Blender>().completedDish == "green")
+        {
+            cup.GetComponent<MeshRenderer>().material.color = green;
+        }
+        else
+        {
+            cup.GetComponent<MeshRenderer>().material.color = purple;
+        }
+        blender.GetComponent<Blender>().completedDish = "";
+        blender.GetComponent<Blender>().itemNumber = 0;
+        blender.GetComponent<Blender>().ingredients.Clear();
+        blender.GetComponent<Blender>().blenderSlider.value = 0;
+        blender.GetComponent<Blender>().blenderCanvas.enabled = false;
+    }
+
+    [Command]
+    private void CmdPlant(string seedName)
+    {
+        GameObject seed = GameObject.Find(seedName);
+        GameObject newflower = Instantiate(seed.GetComponent<Seed>().flowerType, new Vector3(seed.transform.position.x, 1, seed.transform.position.z), Quaternion.identity);
+        NetworkServer.Spawn(newflower);
+        NetworkServer.Destroy(seed);
+        Destroy(seed);
     }
 
     [ClientCallback]
@@ -220,7 +329,7 @@ public class PlayerInteract : NetworkBehaviour
             {
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 1, dropLayerMask))
                 {
-                    if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.gameObject.GetComponent<Blender>().itemNumber < 4 && heldItem.name.Split(' ')[0] == "CutFlower")
+                    if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.gameObject.GetComponent<Blender>().itemNumber < 4 && heldItem.GetComponent<Pickups>().blendable)
                     {
                         CmdBlend(hit.transform.gameObject.name, heldItem.name);
                         holding = false;
@@ -228,6 +337,7 @@ public class PlayerInteract : NetworkBehaviour
                     }
                     else if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.GetComponent<Blender>().completedDish != "" && heldItem.name.Split(' ')[0] == "Cup")
                     {
+                        CmdCupFill(heldItem.name, hit.transform.name);
                         heldItem.GetComponent<Pickups>().CupFill(hit.transform.GetComponent<Blender>().completedDish);
                     }
                     else if (hit.transform.tag == "ItemPlace" && hit.transform.childCount == 0 || (hit.transform.childCount == 1 && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
@@ -267,7 +377,8 @@ public class PlayerInteract : NetworkBehaviour
 
             if(holding && heldItem.TryGetComponent<Seed>(out Seed seedComponent))
             {
-                seedComponent.CmdPlantFlower();
+                CmdPlant(heldItem.name);
+                //seedComponent.PlantFlower();
                 holding = false;
                 heldItem = null;
             }

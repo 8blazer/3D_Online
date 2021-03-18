@@ -5,7 +5,7 @@ using Mirror;
 
 public class Seed : NetworkBehaviour
 {
-    [SerializeField] private GameObject flowerType;
+    public GameObject flowerType;
     [SerializeField] private float spawnDistanceAboveGround;//assuming ground is at 0
     [Command]
     public void CmdPlantFlower()
@@ -19,5 +19,10 @@ public class Seed : NetworkBehaviour
         NetworkServer.Spawn(newflower);
         NetworkServer.Destroy(gameObject);
         Destroy(gameObject);
+    }
+
+    public void PlantFlower()
+    {
+        CmdPlantFlower();
     }
 }

@@ -49,10 +49,11 @@ public class Blender : NetworkBehaviour
                         if (ingredients[i] == "red")
                         {
                             ingredients.RemoveAt(i);
+                            i--;
                         }
                         i++;
                     }
-                    if (ingredients.Count() != 2)
+                    if (ingredients.Count() == 2)
                     {
                         if (ingredients[0] == "blue" && ingredients[1] == "blue")
                         {
@@ -72,10 +73,11 @@ public class Blender : NetworkBehaviour
                         if (ingredients[i] == "yellow")
                         {
                             ingredients.RemoveAt(i);
+                            i--;
                         }
                         i++;
                     }
-                    if (ingredients.Count() != 2)
+                    if (ingredients.Count() == 2)
                     {
                         if (ingredients[0] == "blue" && ingredients[1] == "blue")
                         {
@@ -95,10 +97,11 @@ public class Blender : NetworkBehaviour
                         if (ingredients[i] == "blue")
                         {
                             ingredients.RemoveAt(i);
+                            i--;
                         }
                         i++;
                     }
-                    if (ingredients.Count() != 2)
+                    if (ingredients.Count() == 2)
                     {
                         if (ingredients[0] == "red" && ingredients[1] == "red")
                         {

@@ -16,7 +16,6 @@ public class CustomerOrder : NetworkBehaviour
     public Image redPollen;
     public Image bluePollen;
     public Image yellowPollen;
-    public Image lettuce;
     
     [ClientRpc]
     public void AddOrder(string netOrder)
@@ -61,6 +60,51 @@ public class CustomerOrder : NetworkBehaviour
             yellow.rectTransform.SetParent(orderback.transform, false);
             NetworkServer.Spawn(yellow.gameObject);
         }
+        else if (netOrder == "OrangeSmoothie")
+        {
+            Image yellow = Instantiate(yellowPollen, new Vector3(-40, -30, 0), Quaternion.identity);
+            yellow.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(yellow.gameObject);
+            yellow = Instantiate(yellowPollen, new Vector3(-10, -30, 0), Quaternion.identity);
+            yellow.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(yellow.gameObject);
+            Image red = Instantiate(redPollen, new Vector3(10, -30, 0), Quaternion.identity);
+            red.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(red.gameObject);
+            red = Instantiate(redPollen, new Vector3(40, -30, 0), Quaternion.identity);
+            red.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(red.gameObject);
+        }
+        else if (netOrder == "GreenSmoothie")
+        {
+            Image yellow = Instantiate(yellowPollen, new Vector3(-40, -30, 0), Quaternion.identity);
+            yellow.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(yellow.gameObject);
+            yellow = Instantiate(yellowPollen, new Vector3(-10, -30, 0), Quaternion.identity);
+            yellow.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(yellow.gameObject);
+            Image blue = Instantiate(bluePollen, new Vector3(10, -30, 0), Quaternion.identity);
+            blue.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(blue.gameObject);
+            blue = Instantiate(bluePollen, new Vector3(40, -30, 0), Quaternion.identity);
+            blue.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(blue.gameObject);
+        }
+        else
+        {
+            Image red = Instantiate(redPollen, new Vector3(-40, -30, 0), Quaternion.identity);
+            red.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(red.gameObject);
+            red = Instantiate(redPollen, new Vector3(-10, -30, 0), Quaternion.identity);
+            red.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(red.gameObject);
+            Image blue = Instantiate(bluePollen, new Vector3(10, -30, 0), Quaternion.identity);
+            blue.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(blue.gameObject);
+            blue = Instantiate(bluePollen, new Vector3(40, -30, 0), Quaternion.identity);
+            blue.rectTransform.SetParent(orderback.transform, false);
+            NetworkServer.Spawn(blue.gameObject);
+        }
     }
 
     // Start is called before the first frame update
@@ -69,6 +113,9 @@ public class CustomerOrder : NetworkBehaviour
         orderList.Add("RedSmoothie");
         orderList.Add("BlueSmoothie");
         orderList.Add("YellowSmoothie");
+        orderList.Add("OrangeSmoothie");
+        orderList.Add("GreenSmoothie");
+        orderList.Add("PurpleSmoothie");
     }
 
     // Update is called once per frame

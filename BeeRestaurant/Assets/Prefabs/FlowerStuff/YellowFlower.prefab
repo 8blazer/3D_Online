@@ -134,6 +134,7 @@ MonoBehaviour:
   syncInterval: 0.1
   held: 0
   counter: 0
+  blendable: 0
   placedHeight: 0.6
   holdPlayer: {fileID: 0}
   cuttable: 1
@@ -248,27 +249,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: flower3 2
+      value: flower3 1
       objectReference: {fileID: 0}
     - target: {fileID: 3322628331716217816, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: mid 7
+      value: mid 1
       objectReference: {fileID: 0}
     - target: {fileID: 5233112405309087440, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: Circle 8
+      value: Circle 5
       objectReference: {fileID: 0}
     - target: {fileID: 7461748804363185610, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: top 2
+      value: top 1
       objectReference: {fileID: 0}
     - target: {fileID: 7522708155104796418, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: bottom 2
+      value: bottom 1
       objectReference: {fileID: 0}
     - target: {fileID: 7953606483559150473, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
       propertyPath: m_Name
-      value: base 6
+      value: base 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7caffc63b87a84d4ba4d5c1dee7fd9eb, type: 3}
@@ -347,7 +348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5d1ebbc812b05ff41894e688def133dd, type: 3}
       propertyPath: m_Name
-      value: seed1 2
+      value: seed1 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d1ebbc812b05ff41894e688def133dd, type: 3}
@@ -426,23 +427,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3756473180518285571, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}
       propertyPath: m_Name
-      value: Circle.001 5
+      value: Circle.001 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}
       propertyPath: m_Name
-      value: sprout3 2
+      value: sprout3 1
       objectReference: {fileID: 0}
     - target: {fileID: 2030951975996134374, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}
       propertyPath: m_Name
-      value: leaf 5
+      value: leaf 3
       objectReference: {fileID: 0}
     - target: {fileID: 5233112405309087440, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}
       propertyPath: m_Name
-      value: Circle 6
+      value: Circle 3
       objectReference: {fileID: 0}
     - target: {fileID: 6522315527816544079, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}
       propertyPath: m_Name
-      value: stem 6
+      value: stem 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d464d2a54b260e4b944537282ab1c9f, type: 3}

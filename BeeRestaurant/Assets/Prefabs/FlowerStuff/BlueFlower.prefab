@@ -134,6 +134,7 @@ MonoBehaviour:
   syncInterval: 0.1
   held: 0
   counter: 0
+  blendable: 0
   placedHeight: 0.6
   holdPlayer: {fileID: 0}
   cuttable: 1
@@ -248,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f1732dbf1ebcdf240b43aed4f6d0c79b, type: 3}
       propertyPath: m_Name
-      value: seed2 2
+      value: seed2 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1732dbf1ebcdf240b43aed4f6d0c79b, type: 3}
@@ -331,7 +332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 61c5d4326b545cb4fafffeb25eda8185, type: 3}
       propertyPath: m_Name
-      value: sprout2 2
+      value: sprout2 1
       objectReference: {fileID: 0}
     - target: {fileID: 2030951975996134374, guid: 61c5d4326b545cb4fafffeb25eda8185, type: 3}
       propertyPath: m_Name
@@ -420,9 +421,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8578491135273619529, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}
+      propertyPath: m_Name
+      value: stamen 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}
       propertyPath: m_Name
-      value: flower2
+      value: flower2 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812425300355933780, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}
+      propertyPath: m_Name
+      value: pollen 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144077883632001002, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}
+      propertyPath: m_Name
+      value: petal 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953606483559150473, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}
+      propertyPath: m_Name
+      value: base 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f576aa969861734a8f1ef4adffb81a1, type: 3}

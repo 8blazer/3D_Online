@@ -1,0 +1,6 @@
+red ff544e
+blue 519bff
+yellow fff88a
+purple a878a6
+green c1d7b4
+orange ffa66c

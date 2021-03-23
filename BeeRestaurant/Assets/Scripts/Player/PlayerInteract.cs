@@ -31,6 +31,8 @@ public class PlayerInteract : NetworkBehaviour
     float sliderBefore;
     float sliderAfter;
     private GameObject pauseMenu;
+    private GameObject GM;
+
 
     [Command]
     private void CmdItemPlace(string table, string item)
@@ -198,6 +200,16 @@ public class PlayerInteract : NetworkBehaviour
     private void CmdDeliver(string item)
     {
         GameObject deliveredItem = GameObject.Find(item);
+        GM = GameObject.FindGameObjectWithTag("GameController");
+        GM.GetComponent<GameManager>().points += 1;
+        if((item.Contains("Red") || item.Contains("Blue") || item.Contains("Yellow")) && item.Contains("Cup"))
+        {
+            GM.GetComponent<GameManager>().points++;
+        }
+        else if ((item.Contains("Orange") || item.Contains("Green") || item.Contains("Purple")) && item.Contains("Cup"))
+        {
+            GM.GetComponent<GameManager>().points += 2;
+        }
         CRpcDeliver(deliveredItem.name);
         Destroy(deliveredItem);
     }
@@ -267,26 +279,32 @@ public class PlayerInteract : NetworkBehaviour
         if (blender.GetComponent<Blender>().completedDish == "red")
         {
             cup.GetComponent<MeshRenderer>().material.color = red;
+            cup.name = "RedCup";
         }
         else if (blender.GetComponent<Blender>().completedDish == "blue")
         {
             cup.GetComponent<MeshRenderer>().material.color = blue;
+            cup.name = "BlueCup";
         }
         else if (blender.GetComponent<Blender>().completedDish == "yellow")
         {
             cup.GetComponent<MeshRenderer>().material.color = yellow;
+            cup.name = "YellowCup";
         }
         else if (blender.GetComponent<Blender>().completedDish == "orange")
         {
             cup.GetComponent<MeshRenderer>().material.color = orange;
+            cup.name = "OrangeCup";
         }
         else if (blender.GetComponent<Blender>().completedDish == "green")
         {
             cup.GetComponent<MeshRenderer>().material.color = green;
+            cup.name = "GreenCup";
         }
         else
         {
             cup.GetComponent<MeshRenderer>().material.color = purple;
+            cup.name = "PurpleCup";
         }
         blender.GetComponent<Blender>().completedDish = "";
         blender.GetComponent<Blender>().itemNumber = 0;

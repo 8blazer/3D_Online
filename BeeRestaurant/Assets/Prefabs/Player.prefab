@@ -399,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8391222552659086748, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube 5
+      value: Cube 4
       objectReference: {fileID: 0}
     - target: {fileID: -8143710011712545758, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled

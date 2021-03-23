@@ -10,7 +10,7 @@ public class OrderMovement : MonoBehaviour
     void Start()
     {
         GameObject gameManager = GameObject.Find("GameManager 1");
-        orderNumber = gameManager.GetComponent<CustomerOrder>().currentOrders;
+        orderNumber = gameManager.GetComponent<CustomerOrder>().currentOrdersNumber;
     }
 
     // Update is called once per frame

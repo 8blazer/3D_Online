@@ -16,23 +16,15 @@ public class OrderMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (orderNumber == 1 && transform.position.x > 150)
+        if (orderNumber == 1 && transform.position.x > 200)
         {
             transform.position -= new Vector3(4, 0, 0);
         }
-        else if (orderNumber == 2 && transform.position.x > 450)
+        else if (orderNumber == 2 && transform.position.x > 550)
         {
             transform.position -= new Vector3(4, 0, 0);
         }
-        else if (orderNumber == 3 && transform.position.x > 750)
-        {
-            transform.position -= new Vector3(4, 0, 0);
-        }
-        else if (orderNumber == 4 && transform.position.x > 1050)
-        {
-            transform.position -= new Vector3(4, 0, 0);
-        }
-        else if (orderNumber == 5 && transform.position.x > 1350)
+        else if (orderNumber == 3 && transform.position.x > 900)
         {
             transform.position -= new Vector3(4, 0, 0);
         }

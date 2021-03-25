@@ -265,18 +265,12 @@ MonoBehaviour:
   redPollenPrefab: {fileID: 4682133695359472249, guid: ad5dded90cc828a4bb8ea80bce254999, type: 3}
   bluePollenPrefab: {fileID: 8168989521059428927, guid: ec843774aebc17b40b0ae9679386e760, type: 3}
   yellowPollenPrefab: {fileID: 8475421635433356608, guid: 7f6175c5bc513e64fa909bf07ea49bd8, type: 3}
-  redSmoothiePrefab: {fileID: 0}
-  blueSmoothiePrefab: {fileID: 0}
-  yellowSmoothiePrefab: {fileID: 0}
-  orangeSmoothiePrefab: {fileID: 0}
-  greenSmoothiePrefab: {fileID: 0}
-  purpleSmoothiePrefab: {fileID: 0}
-  red: {r: 1, g: 0, b: 0, a: 0}
-  blue: {r: 0, g: 0.6694646, b: 1, a: 0}
-  yellow: {r: 0.96469927, g: 1, b: 0, a: 0}
-  orange: {r: 1, g: 0.6249814, b: 0, a: 0}
-  green: {r: 0.07035947, g: 1, b: 0, a: 0}
-  purple: {r: 0.5051899, g: 0, b: 1, a: 0}
+  redSmoothiePrefab: {fileID: 6375709603575006997, guid: d0c04e7f7c612c341b19f14253b95d79, type: 3}
+  blueSmoothiePrefab: {fileID: 2006289076323976660, guid: 102fac141277e2a46af679d900e8d7db, type: 3}
+  yellowSmoothiePrefab: {fileID: 6185399086965637904, guid: 3130a55ec57504c4eb2d76882074c4c2, type: 3}
+  orangeSmoothiePrefab: {fileID: 1452391207506318034, guid: 4537231ac9b21e04f8fe576789d866ca, type: 3}
+  greenSmoothiePrefab: {fileID: 6490718946050655152, guid: 1ced0f8317e76d3419fa0f3cfd03917e, type: 3}
+  purpleSmoothiePrefab: {fileID: 621946475947441005, guid: 55afdfeb937ba1d4dbe9909e72c99c0a, type: 3}
 --- !u!114 &7306934481245979855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,11 +401,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7640558969779515294, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.004 3
+      value: Cube.004 2
       objectReference: {fileID: 0}
     - target: {fileID: -7146521406498821007, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.003 3
+      value: Cube.003 2
       objectReference: {fileID: 0}
     - target: {fileID: -6093592463355912122, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -419,11 +413,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5317621499353570459, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.008 3
+      value: Icosphere.008 2
       objectReference: {fileID: 0}
     - target: {fileID: -5117700066308340382, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere 3
+      value: Icosphere 2
       objectReference: {fileID: 0}
     - target: {fileID: -4683669308469848369, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -451,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1599826595754709761, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.005 3
+      value: Cube.005 2
       objectReference: {fileID: 0}
     - target: {fileID: -1461304994638716399, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -459,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1410316370199355845, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.005 3
+      value: Icosphere.005 2
       objectReference: {fileID: 0}
     - target: {fileID: -1120989108687609925, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -475,31 +469,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -516098083770646512, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.001 3
+      value: Cube.001 2
       objectReference: {fileID: 0}
     - target: {fileID: -466329591000292508, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.006 3
+      value: Cube.006 2
       objectReference: {fileID: 0}
     - target: {fileID: -346642047233286542, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.007 3
+      value: Icosphere.007 2
       objectReference: {fileID: 0}
     - target: {fileID: -241861608055726361, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.004 3
+      value: Icosphere.004 2
       objectReference: {fileID: 0}
     - target: {fileID: -208595431880416365, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.007 3
+      value: Cube.007 2
       objectReference: {fileID: 0}
     - target: {fileID: 117214286460000749, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.001 3
+      value: Icosphere.001 2
       objectReference: {fileID: 0}
     - target: {fileID: 281855664364225751, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.008 3
+      value: Cube.008 2
       objectReference: {fileID: 0}
     - target: {fileID: 776046731749314290, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -507,7 +501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: MrBee 3
+      value: MrBee 2
       objectReference: {fileID: 0}
     - target: {fileID: 1661007495284504970, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -523,7 +517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6443852219947562045, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.002 3
+      value: Icosphere.002 2
       objectReference: {fileID: 0}
     - target: {fileID: 6745302439343835087, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -531,11 +525,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7012509476274988224, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.006 3
+      value: Icosphere.006 2
       objectReference: {fileID: 0}
     - target: {fileID: 8416272007918961125, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Cube.002 3
+      value: Cube.002 2
       objectReference: {fileID: 0}
     - target: {fileID: 8571722093453967525, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Enabled
@@ -543,7 +537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8582293574316785276, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}
       propertyPath: m_Name
-      value: Icosphere.003 3
+      value: Icosphere.003 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8338099e9b6be5499cc4d46ac75f3c0, type: 3}

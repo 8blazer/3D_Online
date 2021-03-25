@@ -78,6 +78,7 @@ public class FlowerGrowing : NetworkBehaviour
                     if (flowerObject.transform.localScale.x >= flowerMaxScale)
                     {
                         isGrown = true;
+                        GetComponent<BoxCollider>().enabled = true;
                         gameObject.tag = "Pickup";
                     }
                     else if (timer > growthCheckTimer)

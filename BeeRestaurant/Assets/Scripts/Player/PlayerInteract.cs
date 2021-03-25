@@ -21,12 +21,6 @@ public class PlayerInteract : NetworkBehaviour
     public GameObject orangeSmoothiePrefab;
     public GameObject greenSmoothiePrefab;
     public GameObject purpleSmoothiePrefab;
-    public Color red;
-    public Color blue;
-    public Color yellow;
-    public Color orange;
-    public Color green;
-    public Color purple;
     RaycastHit hit;
     float sliderBefore;
     float sliderAfter;
@@ -202,16 +196,129 @@ public class PlayerInteract : NetworkBehaviour
         GameObject deliveredItem = GameObject.Find(item);
         GM = GameObject.FindGameObjectWithTag("GameController");
         GM.GetComponent<GameManager>().points += 1;
-        if((item.Contains("Red") || item.Contains("Blue") || item.Contains("Yellow")) && item.Contains("Cup"))
+        bool orderFound = false;
+        int i = 0;
+        if (item.Contains("Red") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Red"))
         {
-            GM.GetComponent<GameManager>().points++;
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Red")
+                {
+                    Debug.Log("r");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
         }
-        else if ((item.Contains("Orange") || item.Contains("Green") || item.Contains("Purple")) && item.Contains("Cup"))
+        else if (item.Contains("Blue") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Blue"))
         {
-            GM.GetComponent<GameManager>().points += 2;
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Blue")
+                {
+                    Debug.Log("b");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
         }
-        CRpcDeliver(deliveredItem.name);
-        Destroy(deliveredItem);
+        else if (item.Contains("Yellow") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Yellow"))
+        {
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Yellow")
+                {
+                    Debug.Log("y");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        else if (item.Contains("Orange") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Orange"))
+        {
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Orange")
+                {
+                    Debug.Log("o");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points * 2;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        else if (item.Contains("Green") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Green"))
+        {
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Green")
+                {
+                    Debug.Log("g");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points * 2;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        else if (item.Contains("Purple") && item.Contains("cup") && GM.GetComponent<CustomerOrder>().currentOrders.Contains("Purple"))
+        {
+            while (!orderFound)
+            {
+                if (GM.GetComponent<CustomerOrder>().currentOrders[i] == "Purple")
+                {
+                    Debug.Log("p");
+                    GM.GetComponent<CustomerOrder>().currentOrders.RemoveAt(i);
+                    GM.GetComponent<CustomerOrder>().currentOrdersNumber--;
+                    orderFound = true;
+                    GameObject bee = GameObject.Find("OrderBackground " + i + 1).transform.GetChild(1).gameObject;
+                    GM.GetComponent<GameManager>().points += bee.GetComponent<CustomerPatience>().points * 2;
+                    Destroy(GameObject.Find("OrderBackground " + i + 1));
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        NetworkServer.Destroy(deliveredItem);
     }
 
     [ClientRpc]
@@ -264,48 +371,68 @@ public class PlayerInteract : NetworkBehaviour
     }
 
     [Command]
-    private void CmdCupFill(string item, string blenderName)
+    private void CmdCupFill(string item, string blenderName, string playerName)
     {
         GameObject cup = GameObject.Find(item);
         GameObject blender = GameObject.Find(blenderName);
-        CRpcCupFill(cup.name, blender.name);
-    }
-
-    [ClientRpc]
-    private void CRpcCupFill(string item, string blenderName)
-    {
-        GameObject cup = GameObject.Find(item);
-        GameObject blender = GameObject.Find(blenderName);
+        GameObject player = GameObject.Find(playerName);
         if (blender.GetComponent<Blender>().completedDish == "red")
         {
-            cup.GetComponent<MeshRenderer>().material.color = red;
-            cup.name = "RedCup";
+            GameObject newCup = Instantiate(redSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            newCup.name = "RedCup";
+            NetworkServer.Spawn(newCup);
         }
         else if (blender.GetComponent<Blender>().completedDish == "blue")
         {
-            cup.GetComponent<MeshRenderer>().material.color = blue;
-            cup.name = "BlueCup";
+            GameObject newCup = Instantiate(blueSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            newCup.name = "BlueCup";
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            NetworkServer.Spawn(newCup);
         }
         else if (blender.GetComponent<Blender>().completedDish == "yellow")
         {
-            cup.GetComponent<MeshRenderer>().material.color = yellow;
-            cup.name = "YellowCup";
-        }
-        else if (blender.GetComponent<Blender>().completedDish == "orange")
-        {
-            cup.GetComponent<MeshRenderer>().material.color = orange;
-            cup.name = "OrangeCup";
+            GameObject newCup = Instantiate(yellowSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            newCup.name = "YellowCup";
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            NetworkServer.Spawn(newCup);
         }
         else if (blender.GetComponent<Blender>().completedDish == "green")
         {
-            cup.GetComponent<MeshRenderer>().material.color = green;
-            cup.name = "GreenCup";
+            GameObject newCup = Instantiate(greenSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            newCup.name = "GreenCup";
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            NetworkServer.Spawn(newCup);
         }
-        else
+        else if (blender.GetComponent<Blender>().completedDish == "orange")
         {
-            cup.GetComponent<MeshRenderer>().material.color = purple;
-            cup.name = "PurpleCup";
+            GameObject newCup = Instantiate(orangeSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            newCup.name = "OrangeCup";
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            NetworkServer.Spawn(newCup);
         }
+        else if (blender.GetComponent<Blender>().completedDish == "purple")
+        {
+            GameObject newCup = Instantiate(purpleSmoothiePrefab, cup.transform.position, Quaternion.identity);
+            newCup.GetComponent<Pickups>().holdPlayer = cup.GetComponent<Pickups>().holdPlayer;
+            newCup.name = "PurpleCup";
+            player.GetComponent<PlayerInteract>().heldItem = newCup;
+            NetworkServer.Spawn(newCup);
+        }
+        NetworkServer.Destroy(cup);
+        CRpcSyncNames();
+        CRpcCupFill(blender.name);
+    }
+
+    [ClientRpc]
+    private void CRpcCupFill(string blenderName)
+    {
+        GameObject blender = GameObject.Find(blenderName);
         blender.GetComponent<Blender>().completedDish = "";
         blender.GetComponent<Blender>().itemNumber = 0;
         blender.GetComponent<Blender>().ingredients.Clear();
@@ -355,7 +482,7 @@ public class PlayerInteract : NetworkBehaviour
                     }
                     else if (hit.transform.gameObject.name.Split(' ')[0] == "BlenderTable" && hit.transform.GetComponent<Blender>().completedDish != "" && heldItem.name.Split(' ')[0] == "Cup")
                     {
-                        CmdCupFill(heldItem.name, hit.transform.name);
+                        CmdCupFill(heldItem.name, hit.transform.name, gameObject.name);
                         heldItem.GetComponent<Pickups>().CupFill(hit.transform.GetComponent<Blender>().completedDish);
                     }
                     else if (hit.transform.tag == "ItemPlace" && hit.transform.childCount == 0 || (hit.transform.childCount == 1 && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard"))
@@ -363,7 +490,7 @@ public class PlayerInteract : NetworkBehaviour
                         CmdItemPlace(hit.transform.gameObject.name, heldItem.name);
                         holding = false;
                     }
-                    else if (hit.transform.tag == "Delivery") //&& heldItem.GetComponent<Pickups>().plated)
+                    else if (hit.transform.tag == "Delivery" && heldItem.GetComponent<Pickups>().plated)
                     {
                         holding = false;
                         CmdDeliver(heldItem.name);
@@ -396,7 +523,6 @@ public class PlayerInteract : NetworkBehaviour
             if(holding && heldItem.TryGetComponent<Seed>(out Seed seedComponent))
             {
                 CmdPlant(heldItem.name);
-                //seedComponent.PlantFlower();
                 holding = false;
                 heldItem = null;
             }
@@ -404,7 +530,7 @@ public class PlayerInteract : NetworkBehaviour
             {
                 if (hit.transform.gameObject.tag == "ItemPlace" && hit.transform.gameObject.name.Split(' ')[0] == "CuttingBoard" && hit.transform.childCount > 1)
                 {
-                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true) // && !methodRunning)
+                    if (hit.transform.GetChild(1).GetComponent<Pickups>().cuttable == true)
                     {
                         CmdItemCut(hit.transform.name, hit.transform.GetChild(1).name, Time.deltaTime);
                     }
@@ -413,8 +539,3 @@ public class PlayerInteract : NetworkBehaviour
         }
     }
 }
-
-/*
- * Issues:
- * It appears that the info of holding and the pairing the held items to the player kinda stuff isn't getting translated properly again?
- */

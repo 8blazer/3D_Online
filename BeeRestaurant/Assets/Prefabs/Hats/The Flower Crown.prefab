@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 9134920435062842863}
   - component: {fileID: 5285854331853821734}
   m_Layer: 0
-  m_Name: Sphere.001 3
+  m_Name: Sphere.001 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 903178019224750406}
   - component: {fileID: 3012495061533795024}
   m_Layer: 0
-  m_Name: mid 3
+  m_Name: mid 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 3301598324285460038}
   - component: {fileID: 6056344988150684870}
   m_Layer: 0
-  m_Name: mid 4
+  m_Name: mid 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 4733699855468508949}
   - component: {fileID: 6850890983819111965}
   m_Layer: 0
-  m_Name: mid 1
+  m_Name: mid 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1009,7 +1009,7 @@ GameObject:
   - component: {fileID: 8302227784825597259}
   - component: {fileID: 446276123646767508}
   m_Layer: 0
-  m_Name: Cube 5
+  m_Name: Cube 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 1227612251977216048}
   - component: {fileID: 4669645466350152469}
   m_Layer: 0
-  m_Name: mid 5
+  m_Name: mid 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1337,7 +1337,7 @@ GameObject:
   - component: {fileID: 2479234589656185698}
   - component: {fileID: 4719362324059712969}
   m_Layer: 0
-  m_Name: mid 2
+  m_Name: mid 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1504,7 +1504,7 @@ GameObject:
   - component: {fileID: 5957528174720161342}
   - component: {fileID: 7970723583413109281}
   m_Layer: 0
-  m_Name: Sphere 4
+  m_Name: Sphere 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2247,7 +2247,7 @@ GameObject:
   - component: {fileID: 7541246909162205030}
   - component: {fileID: 4790730702955095624}
   m_Layer: 0
-  m_Name: petal 1
+  m_Name: petal 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

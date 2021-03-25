@@ -11,107 +11,64 @@ public class CustomerOrder : NetworkBehaviour
     float timer = 0;
     List<string> possibleOrderList = new List<string>();
     public List<string> currentOrders = new List<string>();
-    public GameObject netManager;
+    private GameObject netManager;
     public Canvas orderCanvas;
     public Image orderBackground;
-    public Image redPollen;
-    public Image bluePollen;
-    public Image yellowPollen;
+    public Image pollen;
+    public Color red;
+    public Color blue;
+    public Color yellow;
+    public Color green;
+    public Color orange;
+    public Color purple;
+    public Image bee;
     
-    [ClientRpc]
+    [Server]
     public void AddOrder(string netOrder)
     {
-        Image orderback = Instantiate(orderBackground, new Vector3(1085, 338, 0), Quaternion.identity);
+        Image orderback = Instantiate(orderBackground, new Vector3(1085, 338, 0), Quaternion.Euler(0,0,90));
         orderback.rectTransform.SetParent(orderCanvas.transform, false);
         NetworkServer.Spawn(orderback.gameObject);
-
+        
+        Image cup = Instantiate(pollen, new Vector3(-10, 5, 0), Quaternion.Euler(0, 0, -90));
+        cup.rectTransform.SetParent(orderback.transform, false);
         if (netOrder == "RedSmoothie")
         {
-            Image red = Instantiate(redPollen, new Vector3(-32, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
-            red = Instantiate(redPollen, new Vector3(0, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
-            red = Instantiate(redPollen, new Vector3(32, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
+            cup.color = red;
             currentOrders.Add("Red");
         }
         else if (netOrder == "BlueSmoothie")
         {
-            Image blue = Instantiate(bluePollen, new Vector3(-32, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
-            blue = Instantiate(bluePollen, new Vector3(0, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
-            blue = Instantiate(bluePollen, new Vector3(32, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
+            cup.color = blue;
             currentOrders.Add("Blue");
         }
         else if (netOrder == "YellowSmoothie")
         {
-            Image yellow = Instantiate(yellowPollen, new Vector3(-32, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            yellow = Instantiate(yellowPollen, new Vector3(0, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            yellow = Instantiate(yellowPollen, new Vector3(32, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
+            cup.color = yellow;
             currentOrders.Add("Yellow");
         }
         else if (netOrder == "OrangeSmoothie")
         {
-            Image yellow = Instantiate(yellowPollen, new Vector3(-40, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            yellow = Instantiate(yellowPollen, new Vector3(-10, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            Image red = Instantiate(redPollen, new Vector3(10, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
-            red = Instantiate(redPollen, new Vector3(40, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
+            cup.color = orange;
             currentOrders.Add("Orange");
         }
         else if (netOrder == "GreenSmoothie")
         {
-            Image yellow = Instantiate(yellowPollen, new Vector3(-40, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            yellow = Instantiate(yellowPollen, new Vector3(-10, -30, 0), Quaternion.identity);
-            yellow.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(yellow.gameObject);
-            Image blue = Instantiate(bluePollen, new Vector3(10, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
-            blue = Instantiate(bluePollen, new Vector3(40, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
+            cup.color = green;
             currentOrders.Add("Green");
         }
         else
         {
-            Image red = Instantiate(redPollen, new Vector3(-40, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
-            red = Instantiate(redPollen, new Vector3(-10, -30, 0), Quaternion.identity);
-            red.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(red.gameObject);
-            Image blue = Instantiate(bluePollen, new Vector3(10, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
-            blue = Instantiate(bluePollen, new Vector3(40, -30, 0), Quaternion.identity);
-            blue.rectTransform.SetParent(orderback.transform, false);
-            NetworkServer.Spawn(blue.gameObject);
+            cup.color = purple;
             currentOrders.Add("Purple");
         }
+
+
+        NetworkServer.Spawn(cup.gameObject);
+        Image happyBee = Instantiate(bee, new Vector3(50, 0, 0), Quaternion.Euler(0, 0, -90));
+        happyBee.rectTransform.SetParent(orderback.transform, false);
+        happyBee.transform.localScale = new Vector3(.7f, .7f, 1);
+        NetworkServer.Spawn(happyBee.gameObject);
     }
 
     // Start is called before the first frame update
@@ -129,14 +86,28 @@ public class CustomerOrder : NetworkBehaviour
     [ServerCallback]
     void Update()
     {
-        timer += Time.deltaTime;
-        if (((currentOrdersNumber == 0 && timer > 5))) //|| timer > 10) && currentOrdersNumber < 5)
+        if (currentOrdersNumber < 3)
+        {
+            timer += Time.deltaTime;
+        }
+        if ((currentOrdersNumber == 0 && timer > 5) || (timer > 5 && currentOrdersNumber < 3))
         {
             currentOrdersNumber++;
             timer = 0;
             string order = possibleOrderList[Random.Range(0, possibleOrderList.Count)];
             AddOrder(order);
-            netManager.GetComponent<NetSync>().RefreshHeirarachy();
+            CRpcSyncNames();
         }
+    }
+
+    [ClientRpc]
+    private void CRpcSyncNames()
+    {
+        GameObject netManager = GameObject.Find("NetManager");
+        if (netManager == null)
+        {
+            netManager = GameObject.Find("NetManager 1");
+        }
+        netManager.GetComponent<NetSync>().RefreshHeirarachy();
     }
 }
